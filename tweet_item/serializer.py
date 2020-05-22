@@ -8,4 +8,4 @@ class TweetItemSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = TweetItem
-        fields = ['text', 'author']
+        fields = ['id', 'text', 'author']

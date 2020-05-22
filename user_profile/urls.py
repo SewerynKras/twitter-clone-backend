@@ -1,10 +1,11 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from user_profile import views
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register("", views.UserViewSet)
 
 urlpatterns = [
-    path('', views.UserList.as_view()),
-    path('<int:pk>/', views.UserDetail.as_view()),
+    path("", include(router.urls))
 ]
-
-urlpatterns = format_suffix_patterns(urlpatterns)

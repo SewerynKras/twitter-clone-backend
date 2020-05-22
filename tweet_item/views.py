@@ -1,20 +1,19 @@
-from django.shortcuts import render
-from django.contrib.auth.models import User
-from rest_framework import viewsets, permissions
 from tweet_item.serializer import TweetItemSerializer
 from tweet_item.models import TweetItem
-from rest_framework import mixins
-from rest_framework import generics
+from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework.decorators import action
 
 
-class TweetItemList(mixins.ListModelMixin,
-                    mixins.CreateModelMixin,
-                    generics.GenericAPIView):
+class TweetItemViewSet(viewsets.ModelViewSet):
     queryset = TweetItem.objects.all()
     serializer_class = TweetItemSerializer
+    ordering = ['-id']
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    @action(detail=True, methods=["GET"])
+    def text(self, request, *args, **kwargs):
+        tweet = self.get_object()
+        return Response(tweet.text)
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)

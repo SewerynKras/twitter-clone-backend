@@ -1,10 +1,11 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from tweet_item import views
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register('', views.TweetItemViewSet)
 
 urlpatterns = [
-    path('', views.TweetItemList.as_view()),
-    # path('snippets/<int:pk>/', views.SnippetDetail.as_view()),
+    path('', include(router.urls))
 ]
-
-urlpatterns = format_suffix_patterns(urlpatterns)
