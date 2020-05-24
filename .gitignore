@@ -3,3 +3,8 @@ migrations/
 __pycache__/
 .venv/
 .vscode/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover

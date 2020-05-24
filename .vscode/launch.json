@@ -12,6 +12,13 @@
       "args": ["runserver"],
       "django": true,
       "console": "integratedTerminal"
-    }
+    },
+    {
+    "name": "Debug Tests",
+    "type": "python",
+    "request": "test",
+    "console": "integratedTerminal",
+    "justMyCode": false
+}
   ]
 }
