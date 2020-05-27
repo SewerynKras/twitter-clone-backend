@@ -3,6 +3,7 @@ from rest_framework import serializers
 from user_profile.models import Profile
 from rest_framework.validators import UniqueTogetherValidator
 from django.contrib.auth.models import User
+from follow_object.models import FollowObject
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -10,6 +11,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         many=True, read_only=True)
     username = serializers.CharField(source='user.username')
     password = serializers.CharField(source='user.password', write_only=True)
+
+    followers = serializers.SerializerMethodField(read_only=True)
+    following = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Profile
@@ -22,7 +26,9 @@ class ProfileSerializer(serializers.ModelSerializer):
             'location',
             'birth_date',
             'tweets',
-            'password'
+            'password',
+            'followers',
+            'following'
         ]
 
     def validate(self, data):
@@ -54,3 +60,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         instance.save()
         del validated_data['user']
         return super().update(instance, validated_data)
+
+    def get_followers(self, obj):
+        return FollowObject.objects.filter(being_followed=obj).count()
+
+    def get_following(self, obj):
+        return FollowObject.objects.filter(following=obj).count()
