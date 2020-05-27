@@ -2,30 +2,41 @@ import pytest
 from django.contrib.auth.models import User
 from tweet_item.models import TweetItem
 from tweet_item.views import TweetItemViewSet
+from user_profile.models import Profile
 
 pytestmark = pytest.mark.django_db
 
 
 @pytest.fixture
-def testUser() -> User:
+def testUser() -> Profile:
     """
     Generate a user
     """
-    return User.objects.create_user(
+    user = User.objects.create_user(
         username="testUser",
         email="admin@email.com",
         password="testPassword123")
+    profile = Profile.objects.create(
+        user=user,
+        display_name="testUser name"
+    )
+    return profile
 
 
 @pytest.fixture
-def testUser1() -> User:
+def testUser1() -> Profile:
     """
     Generate a user
     """
-    return User.objects.create_user(
+    user = User.objects.create_user(
         username="testUser1",
         email="admin@email123.com",
         password="testPassword123")
+    profile = Profile.objects.create(
+        user=user,
+        display_name="testUser1 name"
+    )
+    return profile
 
 
 @pytest.fixture
@@ -41,7 +52,7 @@ def APIClient(testUser):
 
 
 @pytest.fixture
-def testViewTest(testUser: User, testUser1: User) -> TweetItemViewSet:
+def testViewTest(testUser: Profile, testUser1: Profile) -> TweetItemViewSet:
     """
     Creates 3 TweetItems (2 by testUser and 1 by testUser1) and returns a
     TweetItemViewSet instance
