@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'tweet_item.apps.TweetItemConfig',
     'user_profile.apps.UserProfileConfig',
+    'follow_object.apps.FollowObjectConfig'
 ]
 
 MIDDLEWARE = [
