@@ -42,7 +42,7 @@ def test_03_correct_post(APIClient_no_auth):
     assert response.status_code == 201
 
 
-def test_05_incorrect_post_duplicate(APIClient_no_auth, testViewTest):
+def test_04_incorrect_post_duplicate(APIClient_no_auth, testViewTest):
     data = {
         "username": "testUser",
         "display_name": "new user name",
@@ -52,7 +52,7 @@ def test_05_incorrect_post_duplicate(APIClient_no_auth, testViewTest):
     assert response.status_code == 400
 
 
-def test_06_incorrect_post_missing(APIClient_no_auth):
+def test_05_incorrect_post_missing(APIClient_no_auth):
     data = {
         "username": "newUser",
         "display_name": "new user name",
@@ -62,7 +62,7 @@ def test_06_incorrect_post_missing(APIClient_no_auth):
     assert response.status_code == 400
 
 
-def test_07_correct_patch(APIClient, testViewTest):
+def test_06_correct_patch(APIClient, testViewTest):
     data = {
         "username": "newUser1"
     }
@@ -70,7 +70,7 @@ def test_07_correct_patch(APIClient, testViewTest):
     assert response.status_code == 200
 
 
-def test_08_incorrect_patch_duplicate(APIClient, testViewTest):
+def test_07_incorrect_patch_duplicate(APIClient, testViewTest):
     data = {
         "username": "testUser1"
     }
@@ -78,7 +78,7 @@ def test_08_incorrect_patch_duplicate(APIClient, testViewTest):
     assert response.status_code == 400
 
 
-def test_09_incorrect_patch_no_auth(APIClient, testViewTest):
+def test_08_incorrect_patch_no_auth(APIClient, testViewTest):
     data = {
         "username": "someOtherName"
     }
