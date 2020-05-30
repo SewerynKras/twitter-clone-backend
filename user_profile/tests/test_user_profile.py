@@ -17,14 +17,16 @@ def test_01_correct_get_single(APIClient, testViewTest):
     response = APIClient.get("/users/1/", follow=True)
     assert response.status_code == 200
     assert response.json()['username'] == 'testUser'
-    assert ['id',
-            'username',
-            'display_name',
-            'bio',
-            'website',
-            'location',
-            'birth_date',
-            'tweets'] == list(response.json().keys())
+    assert sorted(['id',
+                   'username',
+                   'display_name',
+                   'bio',
+                   'website',
+                   'location',
+                   'birth_date',
+                   'tweets',
+                   'following',
+                   'followers']) == sorted(list(response.json().keys()))
 
 
 def test_02_incorrect_get_single_not_found(APIClient, testViewTest):
