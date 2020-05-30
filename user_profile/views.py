@@ -8,7 +8,7 @@ from user_profile.permissions import CanOnlyEditYourself
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from follow_object.models import FollowObject
-from follow_object.serializers import FollowObjectSerializer
+from follow_object.serializers import FollowingSerializer, BeingFollowedSerializer
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
@@ -25,7 +25,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
         """
         profile = self.get_object()
         followers = FollowObject.objects.filter(being_followed=profile)
-        followers = FollowObjectSerializer(followers, many=True)
+        followers = FollowingSerializer(followers, many=True)
         return Response(followers.data)
 
     @action(detail=True, methods=["GET"])
@@ -36,5 +36,5 @@ class ProfileViewSet(viewsets.ModelViewSet):
         """
         profile = self.get_object()
         following = FollowObject.objects.filter(following=profile)
-        following = FollowObjectSerializer(following, many=True)
+        following = BeingFollowedSerializer(following, many=True)
         return Response(following.data)
