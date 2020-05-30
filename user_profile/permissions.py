@@ -1,9 +1,9 @@
 from rest_framework import permissions
 
 
-class OnlyAuthorCanEdit(permissions.BasePermission):
+class CanOnlyEditYourself(permissions.BasePermission):
     """
-    Custom permission to only allow authors of a tweet to edit it.
+    Custom permission to only allow users to edit their own profiles.
     """
 
     def has_object_permission(self, request, view, obj) -> bool:
@@ -11,5 +11,5 @@ class OnlyAuthorCanEdit(permissions.BasePermission):
         # so we'll always allow GET, HEAD or OPTIONS requests.
         if request.method in permissions.SAFE_METHODS:
             return True
-        # Write permissions are only allowed to the owner of the tweet.
-        return obj.author == request.user
+        # Write permissions are only allowed to the user.
+        return obj == request.user

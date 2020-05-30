@@ -7,13 +7,13 @@ from django.contrib.auth.models import User
 pytestmark = pytest.mark.django_db
 
 
-def test_01_correct_list(APIClient, testViewTest):
+def test_00_correct_list(APIClient, testViewTest):
     response = APIClient.get("/tweets/")
     assert response.status_code == 200
     assert len(response.json()['results']) == 3
 
 
-def test_02_correct_get_single_mine(APIClient, testViewTest):
+def test_01_correct_get_single_mine(APIClient, testViewTest):
     response = APIClient.get("/tweets/1", follow=True)
     assert response.status_code == 200
     assert response.json()['text'] == "Test tweet 1!"

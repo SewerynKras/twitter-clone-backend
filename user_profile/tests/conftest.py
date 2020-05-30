@@ -1,8 +1,7 @@
 import pytest
 from django.contrib.auth.models import User
-from tweet_item.models import TweetItem
-from tweet_item.views import TweetItemViewSet
 from user_profile.models import Profile
+from user_profile.views import ProfileViewSet
 
 pytestmark = pytest.mark.django_db
 
@@ -15,10 +14,12 @@ def testUser() -> Profile:
     user = User.objects.create_user(
         username="testUser",
         email="admin@email.com",
-        password="testPassword123")
+        password="testPassword123",
+        id=1)
     profile = Profile.objects.create(
         user=user,
-        display_name="testUser name"
+        display_name="testUser name",
+        id=1
     )
     return profile
 
@@ -31,10 +32,12 @@ def testUser1() -> Profile:
     user = User.objects.create_user(
         username="testUser1",
         email="admin@email123.com",
-        password="testPassword123")
+        password="testPassword123",
+        id=2)
     profile = Profile.objects.create(
         user=user,
-        display_name="testUser1 name"
+        display_name="testUser1 name",
+        id=2
     )
     return profile
 
@@ -52,15 +55,19 @@ def APIClient(testUser):
 
 
 @pytest.fixture
-def testViewTest(testUser: Profile, testUser1: Profile) -> TweetItemViewSet:
+def APIClient_no_auth():
     """
-    Creates 3 TweetItems (2 by testUser and 1 by testUser1) and returns a
-    TweetItemViewSet instance
+    Generate a rest_frameworks APICLient but doesn't authenticate it
     """
-    tweet1 = TweetItem.objects.create(
-        text="Test tweet 1!", author=testUser, id="1")
-    tweet2 = TweetItem.objects.create(
-        text="Test tweet 2!", author=testUser, id="2")
-    tweet3 = TweetItem.objects.create(
-        text="Test tweet 3!", author=testUser1, id="3")
-    return TweetItemViewSet()
+    from rest_framework.test import APIClient
+    client = APIClient()
+    return client
+
+
+@pytest.fixture
+def testViewTest(testUser: Profile, testUser1: Profile) -> ProfileViewSet:
+    """
+    Creates 2 Profiles and returns a
+    ProfileViewSet instance
+    """
+    return ProfileViewSet()
