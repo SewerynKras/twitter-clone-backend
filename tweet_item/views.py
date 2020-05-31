@@ -4,6 +4,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from tweet_item.permissions import OnlyAuthorCanEdit
+from like_object.models import LikeObject
+from like_object.serializers import LikeObjectSerializer
 
 
 class TweetItemViewSet(viewsets.ModelViewSet):
@@ -19,3 +21,11 @@ class TweetItemViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+    @action(detail=True, methods=["GET"])
+    def likes(self, request, *args, **kwargs):
+        tweet = self.get_object()
+        likes = LikeObject.objects.filter(tweet=tweet)
+        likes = LikeObjectSerializer(likes, many=True)
+        # This will return a list of users that have liked the selected tweet
+        return Response(likes.data)
