@@ -1,8 +1,9 @@
 import pytest
 from django.contrib.auth.models import User
-from follow_object.views import FollowObjectViewSet
-from follow_object.models import FollowObject
+from like_object.models import LikeObject
 from user_profile.models import Profile
+from tweet_item.models import TweetItem
+from like_object.views import LikeObjectViewSet
 
 pytestmark = pytest.mark.django_db
 
@@ -76,10 +77,10 @@ def testViewTest(testUser0: Profile, testUser1: Profile) -> LikeObjectViewSet:
         text="Test tweet 1!", author=testUser0, id="1")
     tweet2 = TweetItem.objects.create(
         text="Test tweet 2!", author=testUser1, id="2")
-    like1 = LikeObject.object.create(
+    like1 = LikeObject.objects.create(
         tweet=tweet1, author=testUser1
     )
-    like2 = LikeObject.object.create(
+    like2 = LikeObject.objects.create(
         tweet=tweet2, author=testUser0
     )
     return LikeObjectViewSet()
