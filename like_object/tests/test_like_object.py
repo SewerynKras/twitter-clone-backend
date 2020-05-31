@@ -11,7 +11,7 @@ def test_00_correct_get(APIClient, testViewTest):
     response = APIClient.get("/tweets/1/likes/")
     assert response.status_code == 200
     assert len(response.json()) == 1
-    assert response.json()['author'] == "testUser0"
+    assert response.json()[0]['author'] == "testUser1"
 
 
 def test_01_correct_get_no_auth(APIClient_no_auth, testViewTest):

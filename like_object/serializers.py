@@ -5,16 +5,18 @@ from tweet_item.models import TweetItem
 
 class LikeObjectSerializer(serializers.HyperlinkedModelSerializer):
 
-    author = serializers.ReadOnlyField(
-        source='author.username', read_only=True)
     tweet_id = serializers.CharField(write_only=True)
+    author = serializers.SerializerMethodField()
 
     class Meta:
         model = LikeObject
         fields = [
             'author',
-            'tweet_id'
+            'tweet_id',
         ]
+
+    def get_author(self, obj):
+        return obj.author.user.username
 
     def validate(self, data):
         """
