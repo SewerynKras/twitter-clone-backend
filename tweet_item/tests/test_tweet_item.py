@@ -68,3 +68,47 @@ def test_09_incorrect_delete_not_found(APIClient, testViewTest):
 def test_10_incorrect_delete_not_authorized(APIClient, testViewTest):
     response = APIClient.delete("/tweets/3/", follow=True)
     assert response.status_code == 403
+
+
+def test_11_correct_get_retweet_id(APIClient, testViewTest):
+    response = APIClient.get("/tweets/4/")
+    assert response.status_code == 200
+    assert response.json()['retweet'] == 1
+
+
+def test_12_correct_get_detail(APIClient, testViewTest):
+    response = APIClient.get("/tweets/4/retweet/")
+    response1 = APIClient.get("/tweets/1/")
+    assert response.status_code == 200
+    assert response.json() == response1.json()
+
+
+def test_13_correct_get_no_auth(APIClient_no_auth, testViewTest):
+    response = APIClient_no_auth.get("/tweets/4/")
+    assert response.status_code == 200
+    assert response.json()['retweet'] == 1
+
+
+def test_14_correct_get_detail_no_auth(APIClient_no_auth, testViewTest):
+    response = APIClient_no_auth.get("/tweets/4/retweet/")
+    response1 = APIClient_no_auth.get("/tweets/1/")
+    assert response.status_code == 200
+    assert response.json() == response1.json()
+
+
+def test_15_correct_post_with_retweet(APIClient, testViewTest):
+    data = {"retweet": 3, "text": "Look at this cool tweet"}
+    response = APIClient.post("/tweets/", data)
+    assert response.status_code == 201
+
+
+def test_16_correct_post_with_retweet_no_text(APIClient, testViewTest):
+    data = {"retweet": 3}
+    response = APIClient.post("/tweets/", data)
+    assert response.status_code == 201
+
+
+def test_17_incorrect_post_not_found(APIClient, testViewTest):
+    data = {"tweet_id": 1234}
+    response = APIClient.post("/tweets/", data)
+    assert response.status_code == 400
