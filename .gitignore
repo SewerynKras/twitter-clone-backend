@@ -9,3 +9,4 @@ htmlcov/
 coverage.xml
 *.cover
 restart_db.sh
+cov.xml
