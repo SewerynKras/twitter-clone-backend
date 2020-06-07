@@ -52,6 +52,16 @@ def APIClient(testUser):
 
 
 @pytest.fixture
+def APIClient_no_auth():
+    """
+    Generate a rest_frameworks APICLient
+    """
+    from rest_framework.test import APIClient
+    client = APIClient()
+    return client
+
+
+@pytest.fixture
 def testViewTest(testUser: Profile, testUser1: Profile) -> TweetItemViewSet:
     """
     Creates 3 TweetItems (2 by testUser and 1 by testUser1) and returns a
