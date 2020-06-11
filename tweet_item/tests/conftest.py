@@ -76,4 +76,10 @@ def testViewTest(testUser: Profile, testUser1: Profile) -> TweetItemViewSet:
     tweet4 = TweetItem.objects.create(
         text="I am a retweet 1!",
         author=testUser, id="4", retweet=tweet3)
+    tweet5 = TweetItem.objects.create(
+        text="I am a comment 1!",
+        author=testUser1, id="5", comment=tweet2)
+    tweet6 = TweetItem.objects.create(
+        text="I am a comment 2!",
+        author=testUser1, id="6", comment=tweet5)
     return TweetItemViewSet()
