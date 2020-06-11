@@ -10,7 +10,7 @@ pytestmark = pytest.mark.django_db
 def test_00_correct_list(APIClient, testViewTest):
     response = APIClient.get("/tweets/")
     assert response.status_code == 200
-    assert len(response.json()['results']) == 4
+    assert len(response.json()['results']) == 6
 
 
 def test_01_correct_get_single_mine(APIClient, testViewTest):

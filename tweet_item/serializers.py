@@ -18,10 +18,29 @@ class TweetItemSerializer(serializers.HyperlinkedModelSerializer):
         label="retweet",
         write_only=True,
     )
+    comment = serializers.IntegerField(
+        source="comment.id",
+        allow_null=True,
+        default=None,
+        read_only=True)
+    comment_id = serializers.IntegerField(
+        allow_null=True,
+        default=None,
+        label="comment",
+        write_only=True,
+    )
 
     class Meta:
         model = TweetItem
-        fields = ('id', 'text', 'author', 'likes', 'retweet', 'retweet_id')
+        fields = (
+            'id',
+            'text',
+            'author',
+            'likes',
+            'retweet',
+            'retweet_id',
+            'comment',
+            'comment_id')
         extra_kwargs = {
             "text": {"allow_null": True,
                      "default": None}
@@ -29,11 +48,23 @@ class TweetItemSerializer(serializers.HyperlinkedModelSerializer):
 
     def validate(self, data):
         """
+        A tweet cannot be a retweet and a comment at the same time
+        """
+        if (data.get("retweet_id") and data.get("comment_id")):
+            raise serializers.ValidationError(
+                {"comment_id": "A tweet cannot be a retweet and a comment at the same time"})
+
+        """
         No text is only allowed when making a retweet
         """
-        if data.get("text") is None and data.get("retweet_id") is None:
+        if (
+            not data.get("text")
+            and
+            not data.get("retweet_id")
+        ):
             raise serializers.ValidationError(
                 {"text": "No text is only allowed when making a retweet"})
+
         return data
 
     def get_likes(self, obj):

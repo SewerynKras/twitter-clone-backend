@@ -38,3 +38,11 @@ class TweetItemViewSet(viewsets.ModelViewSet):
             raise Http404
         retweet = TweetItemSerializer(tweet.retweet)
         return Response(retweet.data)
+
+    @action(detail=True, methods=["GET"])
+    def comment(self, request, *args, **kwargs):
+        tweet = self.get_object()
+        if not tweet.comment:
+            raise Http404
+        comment = TweetItemSerializer(tweet.comment)
+        return Response(comment.data)
