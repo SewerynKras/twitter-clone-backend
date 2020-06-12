@@ -122,7 +122,7 @@ def test_17_correct_post_with_retweet_no_text(APIClient):
 
 
 def test_18_incorrect_post_not_found(APIClient, testViewTest):
-    data = {"tweet_id": 1234}
+    data = {"retweet_id": 1234}
     response = APIClient.post("/tweets/", data)
     assert response.status_code == 400
 
@@ -171,7 +171,19 @@ def test_24_incorrect_post_with_comment_no_text(APIClient):
     assert response.status_code == 400
 
 
-def test_25_incorrect_post_comment_not_found(APIClient, testViewTest):
+def test_25_incorrect_post_comment_not_found(APIClient):
     data = {"comment_id": 1234, "text": "Look at this awesome comment"}
     response = APIClient.post("/tweets/", data)
     assert response.status_code == 400
+
+
+def test_26_incorrect_post_comment_and_retweet(APIClient, testViewTest):
+    data = {"comment_id": 1, "retweet_id": 2,
+            "text": "Look at this awesome comment"}
+    response = APIClient.post("/tweets/", data)
+    assert response.status_code == 400
+
+
+def test_27_incorrect_get_comment_not_found(APIClient, testViewTest):
+    response = APIClient.get("/tweets/2/comment/")
+    assert response.status_code == 404

@@ -7,11 +7,14 @@ class TweetItemSerializer(serializers.HyperlinkedModelSerializer):
 
     author = serializers.ReadOnlyField(source='author.username')
     likes = serializers.SerializerMethodField()
+    retweets = serializers.SerializerMethodField()
+    comments = serializers.SerializerMethodField()
     retweet = serializers.IntegerField(
         source="retweet.id",
         allow_null=True,
         default=None,
-        read_only=True)
+        read_only=True
+    )
     retweet_id = serializers.IntegerField(
         allow_null=True,
         default=None,
@@ -22,7 +25,8 @@ class TweetItemSerializer(serializers.HyperlinkedModelSerializer):
         source="comment.id",
         allow_null=True,
         default=None,
-        read_only=True)
+        read_only=True
+    )
     comment_id = serializers.IntegerField(
         allow_null=True,
         default=None,
@@ -37,10 +41,13 @@ class TweetItemSerializer(serializers.HyperlinkedModelSerializer):
             'text',
             'author',
             'likes',
+            'comments',
+            'retweets',
             'retweet',
             'retweet_id',
             'comment',
-            'comment_id')
+            'comment_id'
+        )
         extra_kwargs = {
             "text": {"allow_null": True,
                      "default": None}
@@ -65,7 +72,32 @@ class TweetItemSerializer(serializers.HyperlinkedModelSerializer):
             raise serializers.ValidationError(
                 {"text": "No text is only allowed when making a retweet"})
 
+        """
+        Retweet must exist
+        """
+        if data.get("retweet_id"):
+            try:
+                TweetItem.objects.get(id=data['retweet_id'])
+            except TweetItem.DoesNotExist:
+                raise serializers.ValidationError(
+                    {"retweet_id": "Not found"})
+
+        """
+        Comment must exist
+        """
+        if data.get("comment_id"):
+            try:
+                TweetItem.objects.get(id=data['comment_id'])
+            except TweetItem.DoesNotExist:
+                raise serializers.ValidationError(
+                    {"comment_id": "Not found"})
         return data
 
     def get_likes(self, obj):
         return LikeObject.objects.filter(tweet=obj).count()
+
+    def get_retweets(self, obj):
+        return TweetItem.objects.filter(retweet=obj).count()
+
+    def get_comments(self, obj):
+        return TweetItem.objects.filter(comment=obj).count()
