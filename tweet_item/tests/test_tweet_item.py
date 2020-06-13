@@ -10,7 +10,7 @@ pytestmark = pytest.mark.django_db
 def test_00_correct_list(APIClient, testViewTest):
     response = APIClient.get("/tweets/")
     assert response.status_code == 200
-    assert len(response.json()['results']) == 4
+    assert len(response.json()['results']) == 6
 
 
 def test_01_correct_get_single_mine(APIClient, testViewTest):
@@ -81,7 +81,7 @@ def test_12_incorrect_get_retweet_id_not_found(APIClient, testViewTest):
     assert response.status_code == 404
 
 
-def test_13_correct_get_detail(APIClient, testViewTest):
+def test_13_correct_get_retweet_detail(APIClient, testViewTest):
     response = APIClient.get("/tweets/4/retweet/")
     response1 = APIClient.get("/tweets/3/")
     assert response.status_code == 200
@@ -122,6 +122,68 @@ def test_17_correct_post_with_retweet_no_text(APIClient):
 
 
 def test_18_incorrect_post_not_found(APIClient, testViewTest):
-    data = {"tweet_id": 1234}
+    data = {"retweet_id": 1234}
     response = APIClient.post("/tweets/", data)
     assert response.status_code == 400
+
+
+def test_19_correct_get_comment_id(APIClient, testViewTest):
+    response = APIClient.get("/tweets/5/")
+    assert response.status_code == 200
+    assert response.json()['comment'] == 2
+
+
+def test_20_correct_get_comment_num(APIClient, testViewTest):
+    response = APIClient.get("/tweets/5/")
+    assert response.status_code == 200
+    assert response.json()['comments'] == 1
+
+
+def test_21_incorrect_get_retweet_id_not_found(APIClient, testViewTest):
+    response = APIClient.get("/tweets/2/retweet/")
+    assert response.status_code == 404
+
+
+def test_22_correct_get_comment_detail(APIClient, testViewTest):
+    response = APIClient.get("/tweets/5/comment/")
+    response1 = APIClient.get("/tweets/2/")
+    assert response.status_code == 200
+    assert response.json() == response1.json()
+
+
+def test_23_correct_post_with_comment(APIClient):
+    data = {"text": "Look at this cool tweet"}
+    response = APIClient.post("/tweets/", data)
+
+    data = {
+        "commnet_id": response.json()['id'],
+        "text": "Look at this cool comment"}
+    response = APIClient.post("/tweets/", data)
+    assert response.status_code == 201
+
+
+def test_24_incorrect_post_with_comment_no_text(APIClient):
+    data = {"text": "Look at this cool tweet"}
+    response = APIClient.post("/tweets/", data)
+
+    data = {"comment_id": response.json()['id']}
+    response = APIClient.post("/tweets/", data)
+    assert response.status_code == 400
+
+
+def test_25_incorrect_post_comment_not_found(APIClient):
+    data = {"comment_id": 1234, "text": "Look at this awesome comment"}
+    response = APIClient.post("/tweets/", data)
+    assert response.status_code == 400
+
+
+def test_26_incorrect_post_comment_and_retweet(APIClient, testViewTest):
+    data = {"comment_id": 1, "retweet_id": 2,
+            "text": "Look at this awesome comment"}
+    response = APIClient.post("/tweets/", data)
+    assert response.status_code == 400
+
+
+def test_27_incorrect_get_comment_not_found(APIClient, testViewTest):
+    response = APIClient.get("/tweets/2/comment/")
+    assert response.status_code == 404

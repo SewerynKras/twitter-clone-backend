@@ -16,6 +16,14 @@ class TweetItem(models.Model):
     )
     retweet = models.ForeignKey(
         'tweet_item.TweetItem',
+        related_name='retweet_to',
+        null=True,
+        default=None,
+        on_delete=models.SET_NULL
+    )
+    comment = models.ForeignKey(
+        'tweet_item.TweetItem',
+        related_name='comment_to',
         null=True,
         default=None,
         on_delete=models.SET_NULL
