@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+import cloudinary
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -41,7 +42,8 @@ INSTALLED_APPS = [
     'tweet_item.apps.TweetItemConfig',
     'user_profile.apps.UserProfileConfig',
     'follow_object.apps.FollowObjectConfig',
-    'like_object.apps.LikeObjectConfig'
+    'like_object.apps.LikeObjectConfig',
+    'image_object.apps.ImageObjectConfig'
 ]
 
 MIDDLEWARE = [
@@ -138,3 +140,8 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10}
+
+
+cloudinary.config(cloud_name=os.environ['CLOUDINARY_CLOUD_NAME'],
+                  api_key=os.environ['CLOUDINARY_API_KEY'],
+                  api_secret=os.environ['CLOUDINARY_API_SECRET'])
