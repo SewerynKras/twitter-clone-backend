@@ -83,11 +83,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'twitter',
-        'USER': 'twitteradmin',
-        'PASSWORD': 'AdminPassword',
-        'HOST': 'localhost',
-        'PORT': '5433',
+        'NAME': os.environ["TWITTER_DB_NAME"],
+        'USER': os.environ["TWITTER_DB_USER"],
+        'PASSWORD': os.environ["TWITTER_DB_PASSWORD"],
+        'HOST': os.environ["TWITTER_DB_HOST"],
+        'PORT': os.environ["TWITTER_DB_PORT"]
     }
 }
 
