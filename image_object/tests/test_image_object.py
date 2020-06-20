@@ -1,9 +1,10 @@
-import pytest
-import cloudinary.uploader
 from tempfile import TemporaryFile
 from unittest.mock import Mock
-from image_object.models import ImageObject
 
+import cloudinary.uploader
+import pytest
+
+from image_object.models import ImageObject
 
 pytestmark = pytest.mark.django_db
 

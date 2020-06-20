@@ -3,6 +3,8 @@ import pytest
 from tweet_item.models import TweetItem
 from tweet_item.views import TweetItemViewSet
 from django.contrib.auth.models import User
+from django.core.files.uploadedfile import SimpleUploadedFile
+
 
 pytestmark = pytest.mark.django_db
 
@@ -156,7 +158,7 @@ def test_23_correct_post_with_comment(APIClient):
     response = APIClient.post("/tweets/", data)
 
     data = {
-        "commnet_id": response.json()['id'],
+        "comment_id": response.json()['id'],
         "text": "Look at this cool comment"}
     response = APIClient.post("/tweets/", data)
     assert response.status_code == 201
@@ -187,3 +189,47 @@ def test_26_incorrect_post_comment_and_retweet(APIClient, testViewTest):
 def test_27_incorrect_get_comment_not_found(APIClient, testViewTest):
     response = APIClient.get("/tweets/2/comment/")
     assert response.status_code == 404
+
+
+def test_28_correct_post_with_file(APIClient, mockImageUpload):
+    file = SimpleUploadedFile("file.jpg", "some_content", "image/jpg")
+    data = {"text": "New tweet", "image": file}
+    response = APIClient.post("/tweets/", data, format='multipart')
+    assert response.status_code == 201
+
+
+def test_29_correct_post_with_file_and_comment(
+        APIClient, testViewTest, mockImageUpload):
+    data = {"text": "Look at this cool tweet"}
+    response = APIClient.post("/tweets/", data)
+
+    file = SimpleUploadedFile("file.jpg", "some_content", "image/jpg")
+    data = {
+        "comment_id": response.json()['id'],
+        "text": "New tweet",
+        "image": file
+    }
+    response = APIClient.post("/tweets/", data, format='multipart')
+    assert response.status_code == 201
+
+
+def test_30_correct_post_with_file_and_comment(
+        APIClient, testViewTest, mockImageUpload):
+    data = {"text": "Look at this cool tweet"}
+    response = APIClient.post("/tweets/", data)
+
+    file = SimpleUploadedFile("file.jpg", "some_content", "image/jpg")
+    data = {
+        "retweet_id": response.json()['id'],
+        "text": "New tweet",
+        "image": file
+    }
+    response = APIClient.post("/tweets/", data, format='multipart')
+    assert response.status_code == 201
+
+
+def test_31_correct_get_with_file(APIClient, mockImageUpload):
+    response = APIClient.get("/tweets/2/")
+    assert response.status_code == 200
+    assert response.json()[
+        'image'] == "https://res.cloudinary.com/demo/image/upload/v1571218039/hl22acprlomnycgiudor.jpg"
