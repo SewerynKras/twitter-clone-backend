@@ -26,7 +26,8 @@ def test_01_correct_get_single(APIClient, testViewTest):
                    'birth_date',
                    'tweets',
                    'following',
-                   'followers']) == sorted(list(response.json().keys()))
+                   'followers',
+                   'image_url']) == sorted(list(response.json().keys()))
 
 
 def test_02_incorrect_get_single_not_found(APIClient, testViewTest):
@@ -86,3 +87,36 @@ def test_08_incorrect_patch_no_auth(APIClient, testViewTest):
     }
     response = APIClient.patch("/users/2/", data, follow=True)
     assert response.status_code == 403
+
+
+def test_09_correct_post_with_image(
+        APIClient_no_auth,
+        dummyImage,
+        mockImageUpload):
+    data = {
+        "username": "newUser",
+        "display_name": "new user name",
+        "password": "myNewCoolPassword123",
+        "image": dummyImage
+    }
+    response = APIClient_no_auth.post("/users/", data)
+    assert response.status_code == 201
+
+
+def test_10_correct_get_single_image(APIClient, testViewTest):
+    response = APIClient.get("/users/2/", follow=True)
+    assert response.status_code == 200
+    assert response.json()[
+        'image_url'] == 'https://res.cloudinary.com/demo/image/upload/v1571218039/hl22acprlomnycgiudor.jpg'
+
+
+def test_11_correct_patch_with_image(
+        APIClient,
+        testViewTest,
+        dummyImage,
+        mockImageUpload):
+    data = {
+        "image": dummyImage
+    }
+    response = APIClient.patch("/users/1/", data, format='multipart')
+    assert response.status_code == 200
