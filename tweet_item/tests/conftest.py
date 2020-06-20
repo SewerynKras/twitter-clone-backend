@@ -1,11 +1,13 @@
+import tempfile
 from unittest.mock import Mock
 
 import cloudinary.uploader
 import pytest
 from django.contrib.auth.models import User
+from PIL import Image
 
-from tweet_item.models import TweetItem
 from image_object.models import ImageObject
+from tweet_item.models import TweetItem
 from tweet_item.views import TweetItemViewSet
 from user_profile.models import Profile
 
@@ -76,7 +78,8 @@ def testViewTest(testUser: Profile, testUser1: Profile) -> TweetItemViewSet:
         url='https://res.cloudinary.com/demo/image/upload/v1571218039/hl22acprlomnycgiudor.jpg',
         height=282,
         width=292,
-        format='jpg')
+        format='jpg',
+        author=testUser)
     tweet1 = TweetItem.objects.create(
         text="Test tweet 1!", author=testUser, id="1")
     tweet2 = TweetItem.objects.create(
@@ -93,6 +96,20 @@ def testViewTest(testUser: Profile, testUser1: Profile) -> TweetItemViewSet:
         text="I am a comment 2!",
         author=testUser1, id="6", comment=tweet5)
     return TweetItemViewSet()
+
+
+@pytest.fixture
+def dummyImage():
+    """
+    Returns a dummy image for upload testing purposes
+    """
+    image = Image.new('RGB', (100, 100))
+
+    tmp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
+    image.save(tmp_file)
+    tmp_file.seek(0)
+
+    return tmp_file
 
 
 @pytest.fixture

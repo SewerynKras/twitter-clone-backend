@@ -28,6 +28,12 @@ class TweetItem(models.Model):
         default=None,
         on_delete=models.SET_NULL
     )
+    image = models.ForeignKey(
+        'image_object.ImageObject',
+        null=True,
+        default=None,
+        on_delete=models.CASCADE
+    )
 
     class Meta:
         ordering = ['-id']
