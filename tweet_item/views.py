@@ -1,12 +1,14 @@
-from tweet_item.serializers import TweetItemSerializer
-from tweet_item.models import TweetItem
-from rest_framework import viewsets
-from rest_framework.response import Response
 from django.http.response import Http404
+from rest_framework import viewsets
 from rest_framework.decorators import action
-from tweet_item.permissions import OnlyAuthorCanEdit
+from rest_framework.parsers import JSONParser, MultiPartParser
+from rest_framework.response import Response
+
 from like_object.models import LikeObject
 from like_object.serializers import LikeObjectSerializer
+from tweet_item.models import TweetItem
+from tweet_item.permissions import OnlyAuthorCanEdit
+from tweet_item.serializers import TweetItemSerializer
 
 
 class TweetItemViewSet(viewsets.ModelViewSet):
@@ -14,6 +16,7 @@ class TweetItemViewSet(viewsets.ModelViewSet):
     serializer_class = TweetItemSerializer
     ordering = ['-id']
     permission_classes = [OnlyAuthorCanEdit]
+    parser_classes = [JSONParser, MultiPartParser]
 
     @action(detail=True, methods=["GET"])
     def text(self, request, *args, **kwargs):

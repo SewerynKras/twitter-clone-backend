@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from tweet_item.models import TweetItem
 from like_object.models import LikeObject
+from image_object.models import ImageObject
 
 
 class TweetItemSerializer(serializers.HyperlinkedModelSerializer):
@@ -33,6 +34,19 @@ class TweetItemSerializer(serializers.HyperlinkedModelSerializer):
         label="comment",
         write_only=True,
     )
+    image = serializers.ImageField(
+        required=False,
+        allow_null=True,
+        default=None,
+        label="image",
+        write_only=True
+    )
+    image_url = serializers.CharField(
+        source="image.url",
+        allow_null=True,
+        default=None,
+        read_only=True
+    )
 
     class Meta:
         model = TweetItem
@@ -46,12 +60,23 @@ class TweetItemSerializer(serializers.HyperlinkedModelSerializer):
             'retweet',
             'retweet_id',
             'comment',
-            'comment_id'
+            'comment_id',
+            'image',
+            'image_url'
         )
         extra_kwargs = {
             "text": {"allow_null": True,
                      "default": None}
         }
+
+    def create(self, validated_data):
+        # Create an ImageObject if a file has been provided
+        if validated_data['image']:
+            file = ImageObject(author=validated_data['author'])
+            file.upload(validated_data['image'])
+            file.save()
+            validated_data['image'] = file
+        return super().create(validated_data)
 
     def validate(self, data):
         """
