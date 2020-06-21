@@ -9,6 +9,12 @@ class Profile(models.Model):
     location = models.CharField(max_length=30, blank=True, null=True)
     website = models.CharField(max_length=100, blank=True, null=True)
     birth_date = models.DateField(blank=True, null=True)
+    image = models.ForeignKey(
+        'image_object.ImageObject',
+        null=True,
+        default=None,
+        on_delete=models.CASCADE
+    )
 
     class Meta:
         ordering = ['-id']

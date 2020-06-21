@@ -1,14 +1,16 @@
-from django.shortcuts import render
 from django.contrib.auth.models import User
-from rest_framework import generics
-from user_profile.serializers import ProfileSerializer
-from user_profile.models import Profile
-from rest_framework import viewsets
-from user_profile.permissions import CanOnlyEditYourself
-from rest_framework.response import Response
+from django.shortcuts import render
+from rest_framework import generics, viewsets
 from rest_framework.decorators import action
+from rest_framework.parsers import JSONParser, MultiPartParser
+from rest_framework.response import Response
+
 from follow_object.models import FollowObject
-from follow_object.serializers import FollowingSerializer, BeingFollowedSerializer
+from follow_object.serializers import (BeingFollowedSerializer,
+                                       FollowingSerializer)
+from user_profile.models import Profile
+from user_profile.permissions import CanOnlyEditYourself
+from user_profile.serializers import ProfileSerializer
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
@@ -16,6 +18,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     ordering = ['id']
     permission_classes = [CanOnlyEditYourself]
+    parser_classes = [JSONParser, MultiPartParser]
 
     @action(detail=True, methods=["GET"])
     def followers(self, request, *args, **kwargs):
