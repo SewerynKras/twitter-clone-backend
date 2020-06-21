@@ -4,7 +4,7 @@ from rest_framework.validators import UniqueTogetherValidator
 
 from follow_object.models import FollowObject
 from image_object.models import ImageObject
-from tweet_item.models import TweetItem
+from tweet_object.models import TweetObject
 from user_profile.models import Profile
 
 

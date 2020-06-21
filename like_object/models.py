@@ -3,7 +3,7 @@ from django.db import models
 
 class LikeObject(models.Model):
     tweet = models.ForeignKey(
-        'tweet_item.TweetItem',
+        'tweet_object.TweetObject',
         on_delete=models.CASCADE)
     author = models.ForeignKey(
         'user_profile.Profile',

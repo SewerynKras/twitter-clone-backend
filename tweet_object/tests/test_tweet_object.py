@@ -1,7 +1,7 @@
 from django.urls import reverse
 import pytest
-from tweet_item.models import TweetItem
-from tweet_item.views import TweetItemViewSet
+from tweet_object.models import TweetObject
+from tweet_object.views import TweetObjectViewSet
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 
