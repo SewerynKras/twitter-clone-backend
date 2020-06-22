@@ -6,14 +6,14 @@ from rest_framework.response import Response
 
 from like_object.models import LikeObject
 from like_object.serializers import LikeObjectSerializer
-from tweet_item.models import TweetItem
-from tweet_item.permissions import OnlyAuthorCanEdit
-from tweet_item.serializers import TweetItemSerializer
+from tweet_object.models import TweetObject
+from tweet_object.permissions import OnlyAuthorCanEdit
+from tweet_object.serializers import TweetObjectSerializer
 
 
-class TweetItemViewSet(viewsets.ModelViewSet):
-    queryset = TweetItem.objects.all()
-    serializer_class = TweetItemSerializer
+class TweetObjectViewSet(viewsets.ModelViewSet):
+    queryset = TweetObject.objects.all()
+    serializer_class = TweetObjectSerializer
     ordering = ['-id']
     permission_classes = [OnlyAuthorCanEdit]
     parser_classes = [JSONParser, MultiPartParser]
@@ -39,7 +39,7 @@ class TweetItemViewSet(viewsets.ModelViewSet):
         tweet = self.get_object()
         if not tweet.retweet:
             raise Http404
-        retweet = TweetItemSerializer(tweet.retweet)
+        retweet = TweetObjectSerializer(tweet.retweet)
         return Response(retweet.data)
 
     @action(detail=True, methods=["GET"])
@@ -47,5 +47,5 @@ class TweetItemViewSet(viewsets.ModelViewSet):
         tweet = self.get_object()
         if not tweet.comment:
             raise Http404
-        comment = TweetItemSerializer(tweet.comment)
+        comment = TweetObjectSerializer(tweet.comment)
         return Response(comment.data)

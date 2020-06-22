@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from like_object.models import LikeObject
-from tweet_item.models import TweetItem
+from tweet_object.models import TweetObject
 
 
 class LikeObjectSerializer(serializers.HyperlinkedModelSerializer):
@@ -23,8 +23,8 @@ class LikeObjectSerializer(serializers.HyperlinkedModelSerializer):
         Check that the tweet exists
         """
         try:
-            TweetItem.objects.get(id=data['tweet_id'])
-        except TweetItem.DoesNotExist:
+            TweetObject.objects.get(id=data['tweet_id'])
+        except TweetObject.DoesNotExist:
             raise serializers.ValidationError(
                 {"tweet_id": "Not found"})
 

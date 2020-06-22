@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'tweet_item.apps.TweetItemConfig',
+    'tweet_object.apps.TweetObjectConfig',
     'user_profile.apps.UserProfileConfig',
     'follow_object.apps.FollowObjectConfig',
     'like_object.apps.LikeObjectConfig',

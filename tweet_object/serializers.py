@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from tweet_item.models import TweetItem
+from tweet_object.models import TweetObject
 from like_object.models import LikeObject
 from image_object.models import ImageObject
 
 
-class TweetItemSerializer(serializers.HyperlinkedModelSerializer):
+class TweetObjectSerializer(serializers.HyperlinkedModelSerializer):
 
     author = serializers.ReadOnlyField(source='author.username')
     likes = serializers.SerializerMethodField()
@@ -49,7 +49,7 @@ class TweetItemSerializer(serializers.HyperlinkedModelSerializer):
     )
 
     class Meta:
-        model = TweetItem
+        model = TweetObject
         fields = (
             'id',
             'text',
@@ -102,8 +102,8 @@ class TweetItemSerializer(serializers.HyperlinkedModelSerializer):
         """
         if data.get("retweet_id"):
             try:
-                TweetItem.objects.get(id=data['retweet_id'])
-            except TweetItem.DoesNotExist:
+                TweetObject.objects.get(id=data['retweet_id'])
+            except TweetObject.DoesNotExist:
                 raise serializers.ValidationError(
                     {"retweet_id": "Not found"})
 
@@ -112,8 +112,8 @@ class TweetItemSerializer(serializers.HyperlinkedModelSerializer):
         """
         if data.get("comment_id"):
             try:
-                TweetItem.objects.get(id=data['comment_id'])
-            except TweetItem.DoesNotExist:
+                TweetObject.objects.get(id=data['comment_id'])
+            except TweetObject.DoesNotExist:
                 raise serializers.ValidationError(
                     {"comment_id": "Not found"})
         return data
@@ -122,7 +122,7 @@ class TweetItemSerializer(serializers.HyperlinkedModelSerializer):
         return LikeObject.objects.filter(tweet=obj).count()
 
     def get_retweets(self, obj):
-        return TweetItem.objects.filter(retweet=obj).count()
+        return TweetObject.objects.filter(retweet=obj).count()
 
     def get_comments(self, obj):
-        return TweetItem.objects.filter(comment=obj).count()
+        return TweetObject.objects.filter(comment=obj).count()

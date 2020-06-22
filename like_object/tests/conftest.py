@@ -2,7 +2,7 @@ import pytest
 from django.contrib.auth.models import User
 from like_object.models import LikeObject
 from user_profile.models import Profile
-from tweet_item.models import TweetItem
+from tweet_object.models import TweetObject
 from like_object.views import LikeObjectViewSet
 
 pytestmark = pytest.mark.django_db
@@ -73,9 +73,9 @@ def testViewTest(testUser0: Profile, testUser1: Profile) -> LikeObjectViewSet:
     Creates 3 Follows and returns a
     LikeObjectViewSet instance
     """
-    tweet1 = TweetItem.objects.create(
+    tweet1 = TweetObject.objects.create(
         text="Test tweet 1!", author=testUser0, id="1")
-    tweet2 = TweetItem.objects.create(
+    tweet2 = TweetObject.objects.create(
         text="Test tweet 2!", author=testUser1, id="2")
     like1 = LikeObject.objects.create(
         tweet=tweet1, author=testUser1

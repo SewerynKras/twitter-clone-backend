@@ -7,8 +7,8 @@ from django.contrib.auth.models import User
 from PIL import Image
 
 from image_object.models import ImageObject
-from tweet_item.models import TweetItem
-from tweet_item.views import TweetItemViewSet
+from tweet_object.models import TweetObject
+from tweet_object.views import TweetObjectViewSet
 from user_profile.models import Profile
 
 pytestmark = pytest.mark.django_db
@@ -69,9 +69,9 @@ def APIClient_no_auth():
 
 
 @pytest.fixture
-def testViewTest(testUser: Profile, testUser1: Profile) -> TweetItemViewSet:
+def testViewTest(testUser: Profile, testUser1: Profile) -> TweetObjectViewSet:
     """
-    Creates 6 TweetItems and returns a TweetItemViewSet instance
+    Creates 6 TweetObjects and returns a TweetObjectViewSet instance
     """
     image1 = ImageObject.objects.create(
         public_id='hl22acprlomnycgiudor',
@@ -80,22 +80,22 @@ def testViewTest(testUser: Profile, testUser1: Profile) -> TweetItemViewSet:
         width=292,
         format='jpg',
         author=testUser)
-    tweet1 = TweetItem.objects.create(
+    tweet1 = TweetObject.objects.create(
         text="Test tweet 1!", author=testUser, id="1")
-    tweet2 = TweetItem.objects.create(
+    tweet2 = TweetObject.objects.create(
         text="Test tweet 2!", author=testUser, id="2", image=image1)
-    tweet3 = TweetItem.objects.create(
+    tweet3 = TweetObject.objects.create(
         text="Test tweet 3!", author=testUser1, id="3")
-    tweet4 = TweetItem.objects.create(
+    tweet4 = TweetObject.objects.create(
         text="I am a retweet 1!",
         author=testUser, id="4", retweet=tweet3)
-    tweet5 = TweetItem.objects.create(
+    tweet5 = TweetObject.objects.create(
         text="I am a comment 1!",
         author=testUser1, id="5", comment=tweet2)
-    tweet6 = TweetItem.objects.create(
+    tweet6 = TweetObject.objects.create(
         text="I am a comment 2!",
         author=testUser1, id="6", comment=tweet5)
-    return TweetItemViewSet()
+    return TweetObjectViewSet()
 
 
 @pytest.fixture
