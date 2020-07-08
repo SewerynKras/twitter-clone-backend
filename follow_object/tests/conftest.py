@@ -80,7 +80,10 @@ def APIClient(testUser0):
     """
     from rest_framework.test import APIClient
     client = APIClient()
-    client.force_authenticate(testUser0)
+    data = {"username": "testUser", "password": "testPassword123"}
+    resp = client.post("/token/", data=data, follow=True)
+    token = resp.data["access"]
+    client.force_authenticate(token=token)
     return client
 
 
