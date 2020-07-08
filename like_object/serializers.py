@@ -34,7 +34,7 @@ class LikeObjectSerializer(serializers.HyperlinkedModelSerializer):
         try:
             LikeObject.objects.get(
                 tweet=data['tweet_id'],
-                author=self.context['request'].user)
+                author=self.context['request'].user.profile)
         except LikeObject.DoesNotExist:
             return data
         raise serializers.ValidationError(

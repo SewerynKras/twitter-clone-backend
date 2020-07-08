@@ -7,13 +7,13 @@ from django.contrib.auth.models import User
 pytestmark = pytest.mark.django_db
 
 
-def test_00_correct_list(APIClient, testViewTest):
+def test_00_correct_list(APIClient, testViewSet):
     response = APIClient.get("/users/")
     assert response.status_code == 200
     assert len(response.json()['results']) == 2
 
 
-def test_01_correct_get_single(APIClient, testViewTest):
+def test_01_correct_get_single(APIClient, testViewSet):
     response = APIClient.get("/users/1/", follow=True)
     assert response.status_code == 200
     assert response.json()['username'] == 'testUser'
@@ -30,7 +30,7 @@ def test_01_correct_get_single(APIClient, testViewTest):
                    'image_url']) == sorted(list(response.json().keys()))
 
 
-def test_02_incorrect_get_single_not_found(APIClient, testViewTest):
+def test_02_incorrect_get_single_not_found(APIClient, testViewSet):
     response = APIClient.get("/users/123456/", follow=True)
     assert response.status_code == 404
 
@@ -45,7 +45,7 @@ def test_03_correct_post(APIClient_no_auth):
     assert response.status_code == 201
 
 
-def test_04_incorrect_post_duplicate(APIClient_no_auth, testViewTest):
+def test_04_incorrect_post_duplicate(APIClient_no_auth, testViewSet):
     data = {
         "username": "testUser",
         "display_name": "new user name",
@@ -65,7 +65,7 @@ def test_05_incorrect_post_missing(APIClient_no_auth):
     assert response.status_code == 400
 
 
-def test_06_correct_patch(APIClient, testViewTest):
+def test_06_correct_patch(APIClient, testViewSet):
     data = {
         "username": "newUser1"
     }
@@ -73,7 +73,7 @@ def test_06_correct_patch(APIClient, testViewTest):
     assert response.status_code == 200
 
 
-def test_07_incorrect_patch_duplicate(APIClient, testViewTest):
+def test_07_incorrect_patch_duplicate(APIClient, testViewSet):
     data = {
         "username": "testUser1"
     }
@@ -81,7 +81,7 @@ def test_07_incorrect_patch_duplicate(APIClient, testViewTest):
     assert response.status_code == 400
 
 
-def test_08_incorrect_patch_no_auth(APIClient, testViewTest):
+def test_08_incorrect_patch_no_auth(APIClient, testViewSet):
     data = {
         "username": "someOtherName"
     }
@@ -103,7 +103,7 @@ def test_09_correct_post_with_image(
     assert response.status_code == 201
 
 
-def test_10_correct_get_single_image(APIClient, testViewTest):
+def test_10_correct_get_single_image(APIClient, testViewSet):
     response = APIClient.get("/users/2/", follow=True)
     assert response.status_code == 200
     assert response.json()[
@@ -112,7 +112,7 @@ def test_10_correct_get_single_image(APIClient, testViewTest):
 
 def test_11_correct_patch_with_image(
         APIClient,
-        testViewTest,
+        testViewSet,
         dummyImage,
         mockImageUpload):
     data = {

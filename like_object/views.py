@@ -13,7 +13,7 @@ class LikeObjectViewSet(viewsets.mixins.CreateModelMixin,
     permission_classes = [MustBeLoggedIn]
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+        serializer.save(author=self.request.user.profile)
 
     def get_object(self):
         """
@@ -25,7 +25,7 @@ class LikeObjectViewSet(viewsets.mixins.CreateModelMixin,
         """
         try:
             return LikeObject.objects.get(
-                author=self.request.user,
+                author=self.request.user.profile,
                 tweet=self.kwargs['pk'])
         except LikeObject.DoesNotExist:
             raise Http404

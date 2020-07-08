@@ -24,7 +24,7 @@ class TweetObjectViewSet(viewsets.ModelViewSet):
         return Response(tweet.text)
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+        serializer.save(author=self.request.user.profile)
 
     @action(detail=True, methods=["GET"])
     def likes(self, request, *args, **kwargs):

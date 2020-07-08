@@ -18,7 +18,7 @@ class FollowObjectSerializer(serializers.ModelSerializer):
         """
         Check if that follow target is different that the follower
         """
-        if data['being_followed'] == self.context['request'].user:
+        if data['being_followed'] == self.context['request'].user.profile:
             raise serializers.ValidationError(
                 {"being_followed": "You cannot follow yourself"})
 
@@ -27,7 +27,7 @@ class FollowObjectSerializer(serializers.ModelSerializer):
         """
         try:
             FollowObject.objects.get(
-                following=self.context['request'].user,
+                following=self.context['request'].user.profile,
                 being_followed=data['being_followed'])
         except FollowObject.DoesNotExist:
             return data

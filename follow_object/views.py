@@ -16,7 +16,7 @@ class FollowObjectViewSet(
     permission_classes = [MustBeLoggedIn]
 
     def perform_create(self, serializer):
-        serializer.save(following=self.request.user)
+        serializer.save(following=self.request.user.profile)
 
     def get_object(self):
         """
@@ -28,7 +28,7 @@ class FollowObjectViewSet(
         """
         try:
             return FollowObject.objects.get(
-                following=self.request.user,
+                following=self.request.user.profile,
                 being_followed=self.kwargs['pk'])
         except FollowObject.DoesNotExist:
             raise Http404

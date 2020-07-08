@@ -12,4 +12,4 @@ class CanOnlyEditYourself(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         # Write permissions are only allowed to the user.
-        return obj == request.user
+        return obj == request.user.profile

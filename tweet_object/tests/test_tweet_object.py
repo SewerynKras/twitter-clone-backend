@@ -9,25 +9,25 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 pytestmark = pytest.mark.django_db
 
 
-def test_00_correct_list(APIClient, testViewTest):
+def test_00_correct_list(APIClient, testViewSet):
     response = APIClient.get("/tweets/")
     assert response.status_code == 200
     assert len(response.json()['results']) == 6
 
 
-def test_01_correct_get_single_mine(APIClient, testViewTest):
+def test_01_correct_get_single_mine(APIClient, testViewSet):
     response = APIClient.get("/tweets/1", follow=True)
     assert response.status_code == 200
     assert response.json()['text'] == "Test tweet 1!"
 
 
-def test_02_correct_get_single_not_mine(APIClient, testViewTest):
+def test_02_correct_get_single_not_mine(APIClient, testViewSet):
     response = APIClient.get("/tweets/3", follow=True)
     assert response.status_code == 200
     assert response.json()['text'] == "Test tweet 3!"
 
 
-def test_03_correct_get_single_text(APIClient, testViewTest):
+def test_03_correct_get_single_text(APIClient, testViewSet):
     response = APIClient.get("/tweets/1/text", follow=True)
     assert response.status_code == 200
     assert response.json() == "Test tweet 1!"
@@ -39,64 +39,64 @@ def test_04_correct_post_single(APIClient):
     assert response.status_code == 201
 
 
-def test_05_correct_put(APIClient, testViewTest):
+def test_05_correct_put(APIClient, testViewSet):
     data = {"text": "Different tweet now!"}
     response = APIClient.put("/tweets/1/", data, follow=True)
     assert response.status_code == 200
 
 
-def test_06_incorrect_put_not_found(APIClient, testViewTest):
+def test_06_incorrect_put_not_found(APIClient, testViewSet):
     data = {"text": "Different tweet now!"}
     response = APIClient.put("/tweets/1000/", follow=True)
     assert response.status_code == 404
 
 
-def test_07_incorrect_put_not_authorized(APIClient, testViewTest):
+def test_07_incorrect_put_not_authorized(APIClient, testViewSet):
     data = {"text": "Different tweet now!"}
     response = APIClient.put("/tweets/3/", follow=True)
     assert response.status_code == 403
 
 
-def test_08_correct_delete(APIClient, testViewTest):
+def test_08_correct_delete(APIClient, testViewSet):
     response = APIClient.delete("/tweets/1/", follow=True)
     assert response.status_code == 204
 
 
-def test_09_incorrect_delete_not_found(APIClient, testViewTest):
+def test_09_incorrect_delete_not_found(APIClient, testViewSet):
     response = APIClient.delete("/tweets/1000/", follow=True)
     assert response.status_code == 404
 
 
-def test_10_incorrect_delete_not_authorized(APIClient, testViewTest):
+def test_10_incorrect_delete_not_authorized(APIClient, testViewSet):
     response = APIClient.delete("/tweets/3/", follow=True)
     assert response.status_code == 403
 
 
-def test_11_correct_get_retweet_id(APIClient, testViewTest):
+def test_11_correct_get_retweet_id(APIClient, testViewSet):
     response = APIClient.get("/tweets/4/")
     assert response.status_code == 200
     assert response.json()['retweet'] == 3
 
 
-def test_12_incorrect_get_retweet_id_not_found(APIClient, testViewTest):
+def test_12_incorrect_get_retweet_id_not_found(APIClient, testViewSet):
     response = APIClient.get("/tweets/2/retweet/")
     assert response.status_code == 404
 
 
-def test_13_correct_get_retweet_detail(APIClient, testViewTest):
+def test_13_correct_get_retweet_detail(APIClient, testViewSet):
     response = APIClient.get("/tweets/4/retweet/")
     response1 = APIClient.get("/tweets/3/")
     assert response.status_code == 200
     assert response.json() == response1.json()
 
 
-def test_14_correct_get_no_auth(APIClient_no_auth, testViewTest):
+def test_14_correct_get_no_auth(APIClient_no_auth, testViewSet):
     response = APIClient_no_auth.get("/tweets/4/")
     assert response.status_code == 200
     assert response.json()['retweet'] == 3
 
 
-def test_15_correct_get_detail_no_auth(APIClient_no_auth, testViewTest):
+def test_15_correct_get_detail_no_auth(APIClient_no_auth, testViewSet):
     response = APIClient_no_auth.get("/tweets/4/retweet/")
     response1 = APIClient_no_auth.get("/tweets/3/")
     assert response.status_code == 200
@@ -123,30 +123,30 @@ def test_17_correct_post_with_retweet_no_text(APIClient):
     assert response.status_code == 201
 
 
-def test_18_incorrect_post_not_found(APIClient, testViewTest):
+def test_18_incorrect_post_not_found(APIClient, testViewSet):
     data = {"retweet_id": 1234}
     response = APIClient.post("/tweets/", data)
     assert response.status_code == 400
 
 
-def test_19_correct_get_comment_id(APIClient, testViewTest):
+def test_19_correct_get_comment_id(APIClient, testViewSet):
     response = APIClient.get("/tweets/5/")
     assert response.status_code == 200
     assert response.json()['comment'] == 2
 
 
-def test_20_correct_get_comment_num(APIClient, testViewTest):
+def test_20_correct_get_comment_num(APIClient, testViewSet):
     response = APIClient.get("/tweets/5/")
     assert response.status_code == 200
     assert response.json()['comments'] == 1
 
 
-def test_21_incorrect_get_retweet_id_not_found(APIClient, testViewTest):
+def test_21_incorrect_get_retweet_id_not_found(APIClient, testViewSet):
     response = APIClient.get("/tweets/2/retweet/")
     assert response.status_code == 404
 
 
-def test_22_correct_get_comment_detail(APIClient, testViewTest):
+def test_22_correct_get_comment_detail(APIClient, testViewSet):
     response = APIClient.get("/tweets/5/comment/")
     response1 = APIClient.get("/tweets/2/")
     assert response.status_code == 200
@@ -179,14 +179,14 @@ def test_25_incorrect_post_comment_not_found(APIClient):
     assert response.status_code == 400
 
 
-def test_26_incorrect_post_comment_and_retweet(APIClient, testViewTest):
+def test_26_incorrect_post_comment_and_retweet(APIClient, testViewSet):
     data = {"comment_id": 1, "retweet_id": 2,
             "text": "Look at this awesome comment"}
     response = APIClient.post("/tweets/", data)
     assert response.status_code == 400
 
 
-def test_27_incorrect_get_comment_not_found(APIClient, testViewTest):
+def test_27_incorrect_get_comment_not_found(APIClient, testViewSet):
     response = APIClient.get("/tweets/2/comment/")
     assert response.status_code == 404
 
@@ -226,7 +226,7 @@ def test_30_correct_post_with_file_and_comment(
     assert response.status_code == 201
 
 
-def test_31_correct_get_with_file(APIClient, testViewTest, mockImageUpload):
+def test_31_correct_get_with_file(APIClient, testViewSet, mockImageUpload):
     response = APIClient.get("/tweets/2/")
     assert response.status_code == 200
     assert response.json()[
