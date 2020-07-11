@@ -1,5 +1,5 @@
 from django.db.models import Q
-from django.http.response import Http404
+from django.http.response import Http404, HttpResponseForbidden
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.parsers import JSONParser, MultiPartParser
@@ -97,3 +97,9 @@ class TweetObjectViewSet(viewsets.ModelViewSet):
         retweets = self.paginate_queryset(retweets)
         retweets = TweetObjectSerializer(retweets, many=True)
         return self.get_paginated_response(retweets.data)
+
+    def update(self, request, *args, **kwargs):
+        """
+        Just like in regular Twitter, editing is not allowed.
+        """
+        return HttpResponseForbidden()
