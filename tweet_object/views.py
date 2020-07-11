@@ -28,11 +28,17 @@ class TweetObjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["GET"])
     def likes(self, request, *args, **kwargs):
+
+        # This will return a list of users that
+        # have liked the selected tweet
+
         tweet = self.get_object()
         likes = LikeObject.objects.filter(tweet=tweet)
+
+        # Apply pagination to the queryset
+        likes = self.paginate_queryset(likes)
         likes = LikeObjectSerializer(likes, many=True)
-        # This will return a list of users that have liked the selected tweet
-        return Response(likes.data)
+        return self.get_paginated_response(likes.data)
 
     @action(detail=True, methods=["GET"])
     def retweet(self, request, *args, **kwargs):

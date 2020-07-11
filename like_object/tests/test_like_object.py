@@ -10,14 +10,14 @@ pytestmark = pytest.mark.django_db
 def test_00_correct_get(APIClient, testViewSet):
     response = APIClient.get("/tweets/1/likes/")
     assert response.status_code == 200
-    assert len(response.json()) == 1
-    assert response.json()[0]['author'] == "testUser1"
+    assert len(response.json()['results']) == 1
+    assert response.json()['results'][0]['author'] == "testUser1"
 
 
 def test_01_correct_get_no_auth(APIClient_no_auth, testViewSet):
     response = APIClient_no_auth.get("/tweets/1/likes/")
     assert response.status_code == 200
-    assert len(response.json()) == 1
+    assert len(response.json()['results']) == 1
 
 
 def test_02_correct_post(APIClient, testViewSet):
@@ -28,7 +28,7 @@ def test_02_correct_post(APIClient, testViewSet):
     # Check that it got created
     response = APIClient.get("/tweets/1/likes/")
     assert response.status_code == 200
-    assert len(response.json()) == 2
+    assert len(response.json()['results']) == 2
 
 
 def test_03_incorrect_post_no_auth(APIClient_no_auth, testViewSet):
@@ -56,7 +56,7 @@ def test_06_correct_delete(APIClient, testViewSet):
     # Check that it got deleted
     response = APIClient.get("/tweets/2/likes/")
     assert response.status_code == 200
-    assert len(response.json()) == 0
+    assert len(response.json()['results']) == 0
 
 
 def test_07_incorrect_delete_like_not_found(APIClient, testViewSet):
