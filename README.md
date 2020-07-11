@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/SewerynKras/twitter-clone-backend/branch/master/graph/badge.svg)](https://codecov.io/gh/severynk/twitter-clone-backend/master)
+
 # Django rest framework Twitter backend clone
 
 
