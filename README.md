@@ -1,5 +1,11 @@
 # This project is currently under developement
 
+
+## API documentation
+
+### Token
+
+
 <table>
   <tr>
     <th>Endpoint</th>
@@ -43,6 +49,17 @@ interface Response {
 }</pre>
   </td>
   </tr>
+</table>
+
+### User
+
+<table>
+  <tr>
+    <th>Endpoint</th>
+    <th>Method</th>
+    <th>Body</th>
+    <th>Response</th>
+  </tr>
 
 
   <tr>
@@ -82,7 +99,7 @@ interface Body {
   username: string;
   display_name: string;
   password: string;
-  image: File | null;
+  image?: File;
 }</pre>
   </td>
   <td>
@@ -155,6 +172,17 @@ interface Response {
 }</pre>
   </td>
 </tr>
+</table>
+
+### Tweet
+
+<table>
+  <tr>
+    <th>Endpoint</th>
+    <th>Method</th>
+    <th>Body</th>
+    <th>Response</th>
+  </tr>
 
 
 <tr>
@@ -290,15 +318,27 @@ interface Response {
   <td> - </td>
 </tr>
 
+</table>
+
+### Like
+
+
+<table>
+  <tr>
+    <th>Endpoint</th>
+    <th>Method</th>
+    <th>Body</th>
+    <th>Response</th>
+  </tr>
 
 
 <tr>
-  <td>/follows/</td>
+  <td>/likes/</td>
   <td>POST</td>
   <td> 
     <pre lang="typescript">
 interface Body {
-  tweet_id" number;
+  tweet_id: number;
 }</pre>
   </td>
   <td>
@@ -316,6 +356,20 @@ interface Response {
 </tr>
 
 </tr>
+
+</table>
+
+### Follow
+
+
+
+<table>
+  <tr>
+    <th>Endpoint</th>
+    <th>Method</th>
+    <th>Body</th>
+    <th>Response</th>
+  </tr>
 
 
 <tr>
@@ -336,7 +390,7 @@ interface Response {
   </td>
 
 <tr>
-  <td>/likes/&lt;PROFILE_ID&gt;</td>
+  <td>/follow/&lt;PROFILE_ID&gt;</td>
   <td>DELETE</td>
   <td> - </td>
   <td> - </td>
