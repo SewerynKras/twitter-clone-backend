@@ -17,8 +17,7 @@ def test_01_correct_get_single(APIClient, testViewSet):
     response = APIClient.get("/users/testUser/", follow=True)
     assert response.status_code == 200
     assert response.json()['username'] == 'testUser'
-    assert sorted(['id',
-                   'username',
+    assert sorted(['username',
                    'display_name',
                    'bio',
                    'website',
@@ -118,5 +117,5 @@ def test_11_correct_patch_with_image(
     data = {
         "image": dummyImage
     }
-    response = APIClient.patch("/users/testUser1/", data, format='multipart')
+    response = APIClient.patch("/users/testUser/", data, format='multipart')
     assert response.status_code == 200

@@ -16,9 +16,9 @@ from user_profile.serializers import ProfileSerializer
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    ordering = ['id']
     permission_classes = [CanOnlyEditYourself]
     parser_classes = [JSONParser, MultiPartParser]
+    lookup_field = "user__username"
 
     @action(detail=True, methods=["GET"])
     def followers(self, request, *args, **kwargs):
