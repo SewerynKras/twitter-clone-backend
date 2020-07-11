@@ -4,10 +4,10 @@ from like_object.models import LikeObject
 from image_object.models import ImageObject
 
 
-class TweetObjectSerializer(serializers.HyperlinkedModelSerializer):
+class TweetObjectSerializer(serializers.ModelSerializer):
 
     id = serializers.ReadOnlyField(source='uuid')
-    author = serializers.ReadOnlyField(source='author.username')
+    author = serializers.ReadOnlyField(source='author.user.username')
     likes = serializers.SerializerMethodField()
     retweets = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()

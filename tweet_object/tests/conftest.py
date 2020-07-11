@@ -29,7 +29,7 @@ def testViewSet(testUser0: Profile, testUser1: Profile, testUser2) -> None:
         author=testUser0)
     tweet1 = TweetObject.objects.create(
         text="Test tweet 1!",
-        author=testUser2,
+        author=testUser0,
         uuid="11111111-1111-1111-1111-111111111111")
     tweet2 = TweetObject.objects.create(
         text="Test tweet 2!",
@@ -47,7 +47,7 @@ def testViewSet(testUser0: Profile, testUser1: Profile, testUser2) -> None:
         retweet=tweet3)
     tweet5 = TweetObject.objects.create(
         text="I am a comment 1!",
-        author=testUser0,
+        author=testUser2,
         uuid="55555555-5555-5555-5555-555555555555",
         comment=tweet2)
     tweet6 = TweetObject.objects.create(

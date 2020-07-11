@@ -14,7 +14,7 @@ def test_00_correct_list(APIClient, testViewSet):
     assert response.status_code == 200
     assert response.json()['count'] == 4
     for tweet in response.json()['results']:
-        assert tweet.author in ['testUser', 'testUser2']
+        assert tweet['author'] in ['testUser', 'testUser2']
 
 
 def test_01_correct_get_single_mine(APIClient, testViewSet):

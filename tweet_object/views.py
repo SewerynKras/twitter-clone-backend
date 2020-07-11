@@ -1,9 +1,11 @@
+from django.db.models import Q
 from django.http.response import Http404
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.response import Response
 
+from follow_object.models import FollowObject
 from like_object.models import LikeObject
 from like_object.serializers import LikeObjectSerializer
 from tweet_object.models import TweetObject
@@ -17,6 +19,21 @@ class TweetObjectViewSet(viewsets.ModelViewSet):
     permission_classes = [OnlyAuthorCanEdit]
     parser_classes = [JSONParser, MultiPartParser]
     lookup_field = "uuid"
+
+    def list(self, request):
+        user = self.request.user.profile
+        who_is_the_user_following = FollowObject.objects.filter(following=user)
+        tweets = TweetObject.objects.filter(
+            # Return tweets created by the user
+            Q(author=user) |
+            # Return tweets created by people the user follows
+            Q(author__user__username__in=who_is_the_user_following.values_list(
+                'being_followed__user__username', flat=True)))
+
+        # Apply pagination to the queryset
+        tweets = self.paginate_queryset(tweets)
+        tweets = TweetObjectSerializer(tweets, many=True)
+        return self.get_paginated_response(tweets.data)
 
     @action(detail=True, methods=["GET"])
     def text(self, request, *args, **kwargs):
