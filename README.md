@@ -74,7 +74,6 @@ interface Response {
   next: number | null;
   previous: number | null;
   results: {
-    id: number;
     username: string;
     display_name: string;
     bio: string;
@@ -106,7 +105,6 @@ interface Body {
   <td>
     <pre lang="typescript">
 interface Response {
-  id: number;
   username: string;
   display_name: string;
   bio: string;
@@ -128,7 +126,6 @@ interface Response {
   <td>
     <pre lang="typescript">
 interface Response {
-  id: number;
   username: string;
   display_name: string;
   bio: string;
@@ -159,7 +156,6 @@ interface Response {
   <td>
     <pre lang="typescript">
 interface Response {
-  id: number;
   username: string;
   display_name: string;
   bio: string;
@@ -173,9 +169,65 @@ interface Response {
 }</pre>
   </td>
 </tr>
+
+
+<tr>
+  <td>/users/&lt;ID&gt;/following/</td>
+  <td>GET</td>
+  <td> - </td>
+  <td>
+    <pre lang="typescript">
+interface Response {
+  count: number;
+  next: number | null;
+  previous: number | null;
+  results: {
+    username: string;
+    display_name: string;
+    bio: string;
+    website: string;
+    location: string;
+    birth_date: Date;
+    tweets: number[];
+    followers: number;
+    following: number;
+    image_url: string | null;
+  }[];
+}</pre>
+  </td>
+</tr>
+
+
+<tr>
+  <td>/users/&lt;ID&gt;/followers/</td>
+  <td>GET</td>
+  <td> - </td>
+  <td>
+    <pre lang="typescript">
+interface Response {
+  count: number;
+  next: number | null;
+  previous: number | null;
+  results: {
+    username: string;
+    display_name: string;
+    bio: string;
+    website: string;
+    location: string;
+    birth_date: Date;
+    tweets: number[];
+    followers: number;
+    following: number;
+    image_url: string | null;
+  }[];
+}</pre>
+  </td>
+</tr>
 </table>
 
+
 ### Tweet
+
 
 <table>
   <tr>
