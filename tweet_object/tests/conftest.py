@@ -6,18 +6,19 @@ import pytest
 from django.contrib.auth.models import User
 from PIL import Image
 
+from backend.tests.conftest import *
+from follow_object.models import FollowObject
 from image_object.models import ImageObject
 from tweet_object.models import TweetObject
 from user_profile.models import Profile
-from backend.tests.conftest import *
 
 pytestmark = pytest.mark.django_db
 
 
 @pytest.fixture
-def testViewSet(testUser0: Profile, testUser1: Profile) -> None:
+def testViewSet(testUser0: Profile, testUser1: Profile, testUser2) -> None:
     """
-    Creates 6 TweetObjects
+    Creates 6 TweetObjects and makes the testUser0 follow testUser2
     """
     image1 = ImageObject.objects.create(
         public_id='hl22acprlomnycgiudor',
@@ -28,11 +29,11 @@ def testViewSet(testUser0: Profile, testUser1: Profile) -> None:
         author=testUser0)
     tweet1 = TweetObject.objects.create(
         text="Test tweet 1!",
-        author=testUser0,
+        author=testUser2,
         uuid="11111111-1111-1111-1111-111111111111")
     tweet2 = TweetObject.objects.create(
         text="Test tweet 2!",
-        author=testUser0,
+        author=testUser2,
         uuid="22222222-2222-2222-2222-222222222222",
         image=image1)
     tweet3 = TweetObject.objects.create(
@@ -41,12 +42,12 @@ def testViewSet(testUser0: Profile, testUser1: Profile) -> None:
         uuid="33333333-3333-3333-3333-333333333333")
     tweet4 = TweetObject.objects.create(
         text="I am a retweet 1!",
-        author=testUser0,
+        author=testUser2,
         uuid="44444444-4444-4444-4444-444444444444",
         retweet=tweet3)
     tweet5 = TweetObject.objects.create(
         text="I am a comment 1!",
-        author=testUser1,
+        author=testUser0,
         uuid="55555555-5555-5555-5555-555555555555",
         comment=tweet2)
     tweet6 = TweetObject.objects.create(
@@ -54,6 +55,10 @@ def testViewSet(testUser0: Profile, testUser1: Profile) -> None:
         author=testUser1,
         uuid="66666666-6666-6666-6666-666666666666",
         comment=tweet5)
+    follow = FollowObject.objects.create(
+        following=testUser0,
+        being_followed=testUser2
+    )
 
 
 @pytest.fixture
