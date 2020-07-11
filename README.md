@@ -1,4 +1,39 @@
-# This project is currently under developement
+# Django rest framework Twitter backend clone
+
+
+## Project description
+
+
+This repository contains the code for a Twitter clone I wrote using Django Rest Framework. I've already created a project like this about a year ago during a full-stack django course, but I've decided to recreate it using a more modern developement stack. The front-end part of this project is located in this repository: (UNDER DEVELOPEMENT). Additionaly the entire project has been developed using TDD and maintains 100% code coverage. 
+
+
+Image storage and serving is handled using [Cloudinary](https://cloudinary.com/)
+
+
+The database engine used in this project is PostgreSQL
+
+
+## Project highlights
+
+
+* Test Driven Developement
+* 100% Coverage
+* JWT Authentication
+* Advanced filtering
+* Detailed documentation
+* Custom permission classes
+* CDN image storage
+
+
+## Functionality
+
+
+* Create and edit your profile
+* Create tweets (but in classic Twitter fashion - without the ability to edit them) 
+* Attach images to tweets and profile pictures to profiles
+* Like tweets
+* Follow other profiles
+* Retweet or comment on tweets
 
 
 ## API documentation
