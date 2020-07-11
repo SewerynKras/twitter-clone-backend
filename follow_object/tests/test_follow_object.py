@@ -66,17 +66,23 @@ def test_08_incorrect_post_already_following(APIClient, testViewSet):
     assert response.status_code == 400
 
 
-def test_09_incorrect_post_no_auth(APIClient_no_auth, testViewSet):
+def test_09_incorrect_post_not_found(APIClient, testViewSet):
+    data = {"being_followed": "testUser123456789"}
+    response = APIClient.post("/follow/", data)
+    assert response.status_code == 400
+
+
+def test_10_incorrect_post_no_auth(APIClient_no_auth, testViewSet):
     data = {"being_followed": 2}
     response = APIClient_no_auth.post("/follow/", data)
     assert response.status_code == 401
 
 
-def test_10_correct_delete(APIClient, testViewSet):
+def test_11_correct_delete(APIClient, testViewSet):
     response = APIClient.delete("/follow/testUser1/")
     assert response.status_code == 204
 
 
-def test_11_incorrect_delete_not_following(APIClient, testViewSet):
+def test_12_incorrect_delete_not_following(APIClient, testViewSet):
     response = APIClient.delete("/follow/testUser2/")
     assert response.status_code == 404
