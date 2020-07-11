@@ -121,7 +121,7 @@ interface Response {
 </tr>
 
   <tr>
-  <td>/users/&lt;ID&gt;</td>
+  <td>/users/&lt;ID&gt;/</td>
   <td>GET</td>
   <td> - </td>
   <td>
@@ -144,7 +144,7 @@ interface Response {
 
 
 <tr>
-  <td>/users/&lt;ID&gt;</td>
+  <td>/users/&lt;ID&gt;/</td>
   <td>PUT</td>
   <td>
     <pre lang="typescript">
@@ -184,7 +184,6 @@ interface Response {
     <th>Response</th>
   </tr>
 
-
 <tr>
   <td>/tweets/</td>
   <td>GET</td>
@@ -208,7 +207,6 @@ interface Response {
 }</pre>
   </td>
 </tr>
-
 
 <tr>
   <td>/tweets/</td>
@@ -237,7 +235,6 @@ interface Response {
   </td>
 </tr>
 
-
 <tr>
   <td>/tweets/&lt;ID&gt;/</td>
   <td>GET</td>
@@ -257,7 +254,6 @@ interface Response {
   </td>
 </tr>
 
-
 <tr>
   <td>/tweets/&lt;ID&gt;/likes/</td>
   <td>GET</td>
@@ -265,11 +261,15 @@ interface Response {
   <td>
     <pre lang="typescript">
 interface Response {
-  FIXME: add pagination to likes
+  count: number;
+  next: number | null;
+  previous: number | null;
+  results:  {
+    author: string;
+  }[];
 }</pre>
   </td>
 </tr>
-
 
 <tr>
   <td>/tweets/&lt;ID&gt;/retweet/</td>
@@ -286,6 +286,30 @@ interface Response {
   retweet: number | null;
   comment: number | null;
   image_url: string | null;
+}</pre>
+  </td>
+</tr>
+
+ <tr>
+  <td>/tweets/&lt;ID&gt;/retweets/</td>
+  <td>GET</td>
+  <td> - </td>
+  <td>
+    <pre lang="typescript">
+interface Response {
+  count: number;
+  next: number | null;
+  previous: number | null;
+  results:  {
+    id: number;
+    text: string | null;
+    likes: number;
+    comments: number;
+    retweets: number;
+    retweet: number | null;
+    comment: number | null;
+    image_url: string | null;
+  }[];
 }</pre>
   </td>
 </tr>
@@ -333,33 +357,8 @@ interface Response {
   </td>
 </tr>
 
- <tr>
-  <td>/tweets/&lt;ID&gt;/retweets/</td>
-  <td>GET</td>
-  <td> - </td>
-  <td>
-    <pre lang="typescript">
-interface Response {
-  count: number;
-  next: number | null;
-  previous: number | null;
-  results:  {
-    id: number;
-    text: string | null;
-    likes: number;
-    comments: number;
-    retweets: number;
-    retweet: number | null;
-    comment: number | null;
-    image_url: string | null;
-  }[];
-}</pre>
-  </td>
-</tr>
-
-
 <tr>
-  <td>/tweets/&lt;ID&gt;</td>
+  <td>/tweets/&lt;ID&gt;/</td>
   <td>DELETE</td>
   <td> - </td>
   <td> - </td>
@@ -379,7 +378,6 @@ interface Response {
     <th>Response</th>
   </tr>
 
-
 <tr>
   <td>/likes/</td>
   <td>POST</td>
@@ -397,7 +395,7 @@ interface Response {
   </td>
 
 <tr>
-  <td>/likes/&lt;TWEET_ID&gt;</td>
+  <td>/likes/&lt;TWEET_ID&gt;/</td>
   <td>DELETE</td>
   <td> - </td>
   <td> - </td>
@@ -407,8 +405,8 @@ interface Response {
 
 </table>
 
-### Follow
 
+### Follow
 
 
 <table>
@@ -438,7 +436,7 @@ interface Response {
   </td>
 
 <tr>
-  <td>/follow/&lt;PROFILE_ID&gt;</td>
+  <td>/follow/&lt;PROFILE_ID&gt;/</td>
   <td>DELETE</td>
   <td> - </td>
   <td> - </td>
