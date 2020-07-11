@@ -14,9 +14,9 @@ from tweet_object.serializers import TweetObjectSerializer
 class TweetObjectViewSet(viewsets.ModelViewSet):
     queryset = TweetObject.objects.all()
     serializer_class = TweetObjectSerializer
-    ordering = ['-id']
     permission_classes = [OnlyAuthorCanEdit]
     parser_classes = [JSONParser, MultiPartParser]
+    lookup_field = "uuid"
 
     @action(detail=True, methods=["GET"])
     def text(self, request, *args, **kwargs):
@@ -28,7 +28,6 @@ class TweetObjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["GET"])
     def likes(self, request, *args, **kwargs):
-
         # This will return a list of users that
         # have liked the selected tweet
 

@@ -23,7 +23,8 @@ class LikeObjectSerializer(serializers.HyperlinkedModelSerializer):
         Check that the tweet exists
         """
         try:
-            TweetObject.objects.get(id=data['tweet_id'])
+            tweet = TweetObject.objects.get(uuid=data['tweet_id'])
+            data['tweet_id'] = tweet.id
         except TweetObject.DoesNotExist:
             raise serializers.ValidationError(
                 {"tweet_id": "Not found"})
@@ -33,7 +34,7 @@ class LikeObjectSerializer(serializers.HyperlinkedModelSerializer):
         """
         try:
             LikeObject.objects.get(
-                tweet=data['tweet_id'],
+                tweet=tweet,
                 author=self.context['request'].user.profile)
         except LikeObject.DoesNotExist:
             return data

@@ -26,6 +26,6 @@ class LikeObjectViewSet(viewsets.mixins.CreateModelMixin,
         try:
             return LikeObject.objects.get(
                 author=self.request.user.profile,
-                tweet=self.kwargs['pk'])
+                tweet__uuid=self.kwargs['pk'])
         except LikeObject.DoesNotExist:
             raise Http404
