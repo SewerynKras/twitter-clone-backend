@@ -9,7 +9,7 @@ from image_object.models import ImageObject
 pytestmark = pytest.mark.django_db
 
 
-def test_00_correct_create(testUser):
+def test_00_correct_create(testUser0):
     mock_response = {
         u'bytes': 29802,
         u'created_at': u'2017-06-25T17:20:30Z',
@@ -27,7 +27,7 @@ def test_00_correct_create(testUser):
         side_effect=lambda *args: mock_response)
 
     with TemporaryFile() as tmp:
-        file = ImageObject(author=testUser)
+        file = ImageObject(author=testUser0)
         file.upload(tmp)
         file.save()
         assert cloudinary.uploader.upload.called
@@ -36,4 +36,4 @@ def test_00_correct_create(testUser):
         assert file.height == 282
         assert file.width == 292
         assert file.format == 'jpg'
-        assert file.author == testUser
+        assert file.author == testUser0

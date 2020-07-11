@@ -3,7 +3,7 @@ from django.db import models
 
 
 class TweetObject(models.Model):
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     text = models.CharField(
         max_length=256,
         null=True,

@@ -4,31 +4,32 @@ from like_object.models import LikeObject
 from image_object.models import ImageObject
 
 
-class TweetObjectSerializer(serializers.HyperlinkedModelSerializer):
+class TweetObjectSerializer(serializers.ModelSerializer):
 
-    author = serializers.ReadOnlyField(source='author.username')
+    id = serializers.ReadOnlyField(source='uuid')
+    author = serializers.ReadOnlyField(source='author.user.username')
     likes = serializers.SerializerMethodField()
     retweets = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
-    retweet = serializers.IntegerField(
-        source="retweet.id",
+    retweet = serializers.CharField(
+        source="retweet.uuid",
         allow_null=True,
         default=None,
         read_only=True
     )
-    retweet_id = serializers.IntegerField(
+    retweet_id = serializers.CharField(
         allow_null=True,
         default=None,
         label="retweet",
         write_only=True,
     )
-    comment = serializers.IntegerField(
-        source="comment.id",
+    comment = serializers.CharField(
+        source="comment.uuid",
         allow_null=True,
         default=None,
         read_only=True
     )
-    comment_id = serializers.IntegerField(
+    comment_id = serializers.CharField(
         allow_null=True,
         default=None,
         label="comment",
@@ -102,7 +103,8 @@ class TweetObjectSerializer(serializers.HyperlinkedModelSerializer):
         """
         if data.get("retweet_id"):
             try:
-                TweetObject.objects.get(id=data['retweet_id'])
+                tweet = TweetObject.objects.get(uuid=data['retweet_id'])
+                data['retweet_id'] = tweet.id
             except TweetObject.DoesNotExist:
                 raise serializers.ValidationError(
                     {"retweet_id": "Not found"})
@@ -112,7 +114,8 @@ class TweetObjectSerializer(serializers.HyperlinkedModelSerializer):
         """
         if data.get("comment_id"):
             try:
-                TweetObject.objects.get(id=data['comment_id'])
+                tweet = TweetObject.objects.get(uuid=data['comment_id'])
+                data['comment_id'] = tweet.id
             except TweetObject.DoesNotExist:
                 raise serializers.ValidationError(
                     {"comment_id": "Not found"})
