@@ -47,29 +47,3 @@ class FollowObjectSerializer(serializers.ModelSerializer):
             return data
         raise serializers.ValidationError(
             {"being_followed": "You are already following this user"})
-
-
-class FollowingSerializer(serializers.ModelSerializer):
-    username = serializers.SerializerMethodField('get_user_id')
-
-    class Meta:
-        model = FollowObject
-        fields = [
-            'username'
-        ]
-
-    def get_user_id(self, obj):
-        return obj.following.user.username
-
-
-class BeingFollowedSerializer(serializers.ModelSerializer):
-    username = serializers.SerializerMethodField('get_user_id')
-
-    class Meta:
-        model = FollowObject
-        fields = [
-            'username'
-        ]
-
-    def get_user_id(self, obj):
-        return obj.being_followed.user.username

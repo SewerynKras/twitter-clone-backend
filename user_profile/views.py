@@ -6,8 +6,6 @@ from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.response import Response
 
 from follow_object.models import FollowObject
-from follow_object.serializers import (BeingFollowedSerializer,
-                                       FollowingSerializer)
 from user_profile.models import Profile
 from user_profile.permissions import CanOnlyEditYourself
 from user_profile.serializers import ProfileSerializer
@@ -27,10 +25,15 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
         profile = self.get_object()
         followers = FollowObject.objects.filter(being_followed=profile)
+        # Query profiles that are following the selected user and
+        # feed that to the serializer (return full profiles not FollowObjects)
+        followers = Profile.objects.filter(
+            user__username__in=followers.values_list(
+                'following__user__username', flat=True))
 
         # Apply pagination to the queryset
         followers = self.paginate_queryset(followers)
-        followers = FollowingSerializer(followers, many=True)
+        followers = ProfileSerializer(followers, many=True)
         return self.get_paginated_response(followers.data)
 
     @action(detail=True, methods=["GET"])
@@ -40,8 +43,13 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
         profile = self.get_object()
         following = FollowObject.objects.filter(following=profile)
+        # Query profiles that are being followed and feed that to the
+        # serializer (return full profiles not FollowObjects)
+        following = Profile.objects.filter(
+            user__username__in=following.values_list(
+                'being_followed__user__username', flat=True))
 
         # Apply pagination to the queryset
         following = self.paginate_queryset(following)
-        following = BeingFollowedSerializer(following, many=True)
+        following = ProfileSerializer(following, many=True)
         return self.get_paginated_response(following.data)

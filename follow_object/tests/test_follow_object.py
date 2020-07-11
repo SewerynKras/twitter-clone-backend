@@ -10,13 +10,13 @@ pytestmark = pytest.mark.django_db
 def test_00_correct_get_my_following(APIClient, testViewSet):
     response = APIClient.get("/users/testUser/following/")
     assert response.status_code == 200
-    assert len(response.json()['results']) == 1
+    assert response.json()['count'] == 1
 
 
 def test_01_correct_get_my_followers(APIClient, testViewSet):
     response = APIClient.get("/users/testUser/followers/")
     assert response.status_code == 200
-    assert len(response.json()['results']) == 1
+    assert response.json()['count'] == 1
 
 
 def test_02_correct_get_someones_following(APIClient, testViewSet):
@@ -73,7 +73,7 @@ def test_09_incorrect_post_not_found(APIClient, testViewSet):
 
 
 def test_10_incorrect_post_no_auth(APIClient_no_auth, testViewSet):
-    data = {"being_followed": 2}
+    data = {"being_followed": "testUser1"}
     response = APIClient_no_auth.post("/follow/", data)
     assert response.status_code == 401
 
