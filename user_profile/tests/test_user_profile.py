@@ -14,7 +14,7 @@ def test_00_correct_list(APIClient, testViewSet):
 
 
 def test_01_correct_get_single(APIClient, testViewSet):
-    response = APIClient.get("/users/1/", follow=True)
+    response = APIClient.get("/users/testUser/", follow=True)
     assert response.status_code == 200
     assert response.json()['username'] == 'testUser'
     assert sorted(['id',
@@ -69,7 +69,7 @@ def test_06_correct_patch(APIClient, testViewSet):
     data = {
         "username": "newUser1"
     }
-    response = APIClient.patch("/users/1/", data)
+    response = APIClient.patch("/users/testUser/", data)
     assert response.status_code == 200
 
 
@@ -77,7 +77,7 @@ def test_07_incorrect_patch_duplicate(APIClient, testViewSet):
     data = {
         "username": "testUser1"
     }
-    response = APIClient.patch("/users/1/", data)
+    response = APIClient.patch("/users/testUser/", data)
     assert response.status_code == 400
 
 
@@ -85,7 +85,7 @@ def test_08_incorrect_patch_no_auth(APIClient, testViewSet):
     data = {
         "username": "someOtherName"
     }
-    response = APIClient.patch("/users/2/", data, follow=True)
+    response = APIClient.patch("/users/testUser1/", data, follow=True)
     assert response.status_code == 403
 
 
@@ -104,7 +104,7 @@ def test_09_correct_post_with_image(
 
 
 def test_10_correct_get_single_image(APIClient, testViewSet):
-    response = APIClient.get("/users/2/", follow=True)
+    response = APIClient.get("/users/testUser1/", follow=True)
     assert response.status_code == 200
     assert response.json()[
         'image_url'] == 'https://res.cloudinary.com/demo/image/upload/v1571218039/hl22acprlomnycgiudor.jpg'
@@ -118,5 +118,5 @@ def test_11_correct_patch_with_image(
     data = {
         "image": dummyImage
     }
-    response = APIClient.patch("/users/1/", data, format='multipart')
+    response = APIClient.patch("/users/testUser1/", data, format='multipart')
     assert response.status_code == 200

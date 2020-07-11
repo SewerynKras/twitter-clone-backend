@@ -8,57 +8,57 @@ pytestmark = pytest.mark.django_db
 
 
 def test_00_correct_get_my_following(APIClient, testViewSet):
-    response = APIClient.get("/users/1/following/")
+    response = APIClient.get("/users/testUser/following/")
     assert response.status_code == 200
     assert len(response.json()) == 1
 
 
 def test_01_correct_get_my_followers(APIClient, testViewSet):
-    response = APIClient.get("/users/1/followers/")
+    response = APIClient.get("/users/testUser/followers/")
     assert response.status_code == 200
     assert len(response.json()) == 1
 
 
 def test_02_correct_get_someones_following(APIClient, testViewSet):
-    response = APIClient.get("/users/2/following/")
+    response = APIClient.get("/users/testUser1/following/")
     assert response.status_code == 200
     assert len(response.json()) == 1
 
 
 def test_03_correct_get_someones_followers(APIClient, testViewSet):
-    response = APIClient.get("/users/2/followers/")
+    response = APIClient.get("/users/testUser1/followers/")
     assert response.status_code == 200
     assert len(response.json()) == 2
 
 
 def test_04_correct_get_someones_following_no_auth(
         APIClient_no_auth, testViewSet):
-    response = APIClient_no_auth.get("/users/1/following/")
+    response = APIClient_no_auth.get("/users/testUser1/following/")
     assert response.status_code == 200
     assert len(response.json()) == 1
 
 
 def test_05_correct_get_someones_followers_no_auth(
         APIClient_no_auth, testViewSet):
-    response = APIClient_no_auth.get("/users/1/followers/")
+    response = APIClient_no_auth.get("/users/testUser1/followers/")
     assert response.status_code == 200
     assert len(response.json()) == 1
 
 
 def test_06_correct_post(APIClient, testViewSet):
-    data = {"being_followed": 3}
+    data = {"being_followed": "testUser2"}
     response = APIClient.post("/follow/", data)
     assert response.status_code == 201
 
 
 def test_07_incorrect_post_myself(APIClient, testViewSet):
-    data = {"being_followed": 1}
+    data = {"being_followed": "testUser"}
     response = APIClient.post("/follow/", data)
     assert response.status_code == 400
 
 
 def test_08_incorrect_post_already_following(APIClient, testViewSet):
-    data = {"being_followed": 2}
+    data = {"being_followed": "testUser1"}
     response = APIClient.post("/follow/", data)
     assert response.status_code == 400
 
