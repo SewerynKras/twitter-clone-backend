@@ -9,14 +9,14 @@ from follow_object.models import FollowObject
 from like_object.models import LikeObject
 from like_object.serializers import LikeObjectSerializer
 from tweet_object.models import TweetObject
-from tweet_object.permissions import OnlyAuthorCanEdit
+from tweet_object.permissions import OnlyAuthorCanEdit, OnlyLoggedInUserCanViewList
 from tweet_object.serializers import TweetObjectSerializer
 
 
 class TweetObjectViewSet(viewsets.ModelViewSet):
     queryset = TweetObject.objects.all()
     serializer_class = TweetObjectSerializer
-    permission_classes = [OnlyAuthorCanEdit]
+    permission_classes = [OnlyLoggedInUserCanViewList, OnlyAuthorCanEdit]
     parser_classes = [JSONParser, MultiPartParser]
     lookup_field = "uuid"
 
