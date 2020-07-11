@@ -23,6 +23,7 @@ def test_02_correct_get_someones_following(APIClient, testViewSet):
     response = APIClient.get("/users/testUser1/following/")
     assert response.status_code == 200
     assert len(response.json()) == 1
+    assert response.json()[0]['username'] == "testUser2"
 
 
 def test_03_correct_get_someones_followers(APIClient, testViewSet):
@@ -36,13 +37,15 @@ def test_04_correct_get_someones_following_no_auth(
     response = APIClient_no_auth.get("/users/testUser1/following/")
     assert response.status_code == 200
     assert len(response.json()) == 1
+    assert response.json()[0]['username'] == "testUser2"
 
 
 def test_05_correct_get_someones_followers_no_auth(
         APIClient_no_auth, testViewSet):
-    response = APIClient_no_auth.get("/users/testUser1/followers/")
+    response = APIClient_no_auth.get("/users/testUser/followers/")
     assert response.status_code == 200
     assert len(response.json()) == 1
+    assert response.json()[0]['username'] == "testUser2"
 
 
 def test_06_correct_post(APIClient, testViewSet):
@@ -70,10 +73,10 @@ def test_09_incorrect_post_no_auth(APIClient_no_auth, testViewSet):
 
 
 def test_10_correct_delete(APIClient, testViewSet):
-    response = APIClient.delete("/follow/2/")
+    response = APIClient.delete("/follow/testUser1/")
     assert response.status_code == 204
 
 
 def test_11_incorrect_delete_not_following(APIClient, testViewSet):
-    response = APIClient.delete("/follow/3/")
+    response = APIClient.delete("/follow/testUser2/")
     assert response.status_code == 404

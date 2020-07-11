@@ -4,6 +4,9 @@ from follow_object.models import FollowObject
 
 
 class FollowObjectSerializer(serializers.ModelSerializer):
+
+    being_followed = serializers.CharField()
+
     class Meta:
         model = FollowObject
         fields = [
@@ -16,11 +19,22 @@ class FollowObjectSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """
-        Check if that follow target is different that the follower
+        Check if that follow target exists and is different that the follower
         """
-        if data['being_followed'] == self.context['request'].user.profile:
+        try:
+            # Profile exists?
+            prof = Profile.objects.get(
+                user__username=data['being_followed'])
+            # Profile is different than the current user?
+            if prof == self.context['request'].user.profile:
+                raise serializers.ValidationError(
+                    {"being_followed": "You cannot follow yourself"})
+            # Override the username with the queried profile so that it's ready
+            # for object creation
+            data['being_followed'] = prof
+        except Profile.DoesNotExist:
             raise serializers.ValidationError(
-                {"being_followed": "You cannot follow yourself"})
+                {"being_followed": "Not found"})
 
         """
         Check if that follow target is unique
@@ -34,31 +48,28 @@ class FollowObjectSerializer(serializers.ModelSerializer):
         raise serializers.ValidationError(
             {"being_followed": "You are already following this user"})
 
-    def create(self, validated_data):
-        return super().create(validated_data)
-
 
 class FollowingSerializer(serializers.ModelSerializer):
-    user_id = serializers.SerializerMethodField('get_user_id')
+    username = serializers.SerializerMethodField('get_user_id')
 
     class Meta:
         model = FollowObject
         fields = [
-            'user_id'
+            'username'
         ]
 
     def get_user_id(self, obj):
-        return obj.following.id
+        return obj.following.user.username
 
 
 class BeingFollowedSerializer(serializers.ModelSerializer):
-    user_id = serializers.SerializerMethodField('get_user_id')
+    username = serializers.SerializerMethodField('get_user_id')
 
     class Meta:
         model = FollowObject
         fields = [
-            'user_id'
+            'username'
         ]
 
     def get_user_id(self, obj):
-        return obj.being_followed.id
+        return obj.being_followed.user.username
