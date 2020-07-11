@@ -52,18 +52,26 @@ class TweetObjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["GET"])
     def comments(self, request, *args, **kwargs):
-        tweet = self.get_object()
-        comments = TweetObject.objects.filter(comment=tweet)
-        comments = TweetObjectSerializer(comments, many=True)
         # This will return a list of tweets that
         # have replied the selected tweet
-        return Response(comments.data)
+
+        tweet = self.get_object()
+        comments = TweetObject.objects.filter(comment=tweet)
+
+        # Apply pagination to the queryset
+        comments = self.paginate_queryset(comments)
+        comments = TweetObjectSerializer(comments, many=True)
+        return self.get_paginated_response(comments.data)
 
     @action(detail=True, methods=["GET"])
     def retweets(self, request, *args, **kwargs):
-        tweet = self.get_object()
-        retweets = TweetObject.objects.filter(retweet=tweet)
-        retweets = TweetObjectSerializer(retweets, many=True)
         # This will return a list of tweets that
         # have retweeted the selected tweet
-        return Response(retweets.data)
+
+        tweet = self.get_object()
+        retweets = TweetObject.objects.filter(retweet=tweet)
+
+        # Apply pagination to the queryset
+        retweets = self.paginate_queryset(retweets)
+        retweets = TweetObjectSerializer(retweets, many=True)
+        return self.get_paginated_response(retweets.data)

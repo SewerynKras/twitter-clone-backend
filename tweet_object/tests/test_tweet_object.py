@@ -236,22 +236,22 @@ def test_31_correct_get_with_file(APIClient, testViewSet, mockImageUpload):
 def test_32_correct_get_comments(APIClient, testViewSet):
     response = APIClient.get("/tweets/5/comments/")
     assert response.status_code == 200
-    assert len(response.json()) == 1
+    assert len(response.json()['results']) == 1
 
 
 def test_33_correct_get_comments_0(APIClient, testViewSet):
     response = APIClient.get("/tweets/1/comments/")
     assert response.status_code == 200
-    assert len(response.json()) == 0
+    assert len(response.json()['results']) == 0
 
 
 def test_34_correct_get_retweets(APIClient, testViewSet):
     response = APIClient.get("/tweets/3/retweets/")
     assert response.status_code == 200
-    assert len(response.json()) == 1
+    assert len(response.json()['results']) == 1
 
 
 def test_35_correct_get_retweets_0(APIClient, testViewSet):
     response = APIClient.get("/tweets/1/retweets/")
     assert response.status_code == 200
-    assert len(response.json()) == 0
+    assert len(response.json()['results']) == 0
