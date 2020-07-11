@@ -27,20 +27,33 @@ def testViewSet(testUser0: Profile, testUser1: Profile) -> None:
         format='jpg',
         author=testUser0)
     tweet1 = TweetObject.objects.create(
-        text="Test tweet 1!", author=testUser0, id="1")
+        text="Test tweet 1!",
+        author=testUser0,
+        uuid="11111111-1111-1111-1111-111111111111")
     tweet2 = TweetObject.objects.create(
-        text="Test tweet 2!", author=testUser0, id="2", image=image1)
+        text="Test tweet 2!",
+        author=testUser0,
+        uuid="22222222-2222-2222-2222-222222222222",
+        image=image1)
     tweet3 = TweetObject.objects.create(
-        text="Test tweet 3!", author=testUser1, id="3")
+        text="Test tweet 3!",
+        author=testUser1,
+        uuid="33333333-3333-3333-3333-333333333333")
     tweet4 = TweetObject.objects.create(
         text="I am a retweet 1!",
-        author=testUser0, id="4", retweet=tweet3)
+        author=testUser0,
+        uuid="44444444-4444-4444-4444-444444444444",
+        retweet=tweet3)
     tweet5 = TweetObject.objects.create(
         text="I am a comment 1!",
-        author=testUser1, id="5", comment=tweet2)
+        author=testUser1,
+        uuid="55555555-5555-5555-5555-555555555555",
+        comment=tweet2)
     tweet6 = TweetObject.objects.create(
         text="I am a comment 2!",
-        author=testUser1, id="6", comment=tweet5)
+        author=testUser1,
+        uuid="66666666-6666-6666-6666-666666666666",
+        comment=tweet5)
 
 
 @pytest.fixture

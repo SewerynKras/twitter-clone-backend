@@ -84,7 +84,7 @@ def test_10_incorrect_delete_not_authorized(APIClient, testViewSet):
 def test_11_correct_get_retweet_id(APIClient, testViewSet):
     response = APIClient.get("/tweets/44444444-4444-4444-4444-444444444444/")
     assert response.status_code == 200
-    assert response.json()['retweet'] == 3
+    assert response.json()['retweet'] == "33333333-3333-3333-3333-333333333333"
 
 
 def test_12_incorrect_get_retweet_id_not_found(APIClient, testViewSet):
@@ -105,7 +105,7 @@ def test_14_correct_get_no_auth(APIClient_no_auth, testViewSet):
     response = APIClient_no_auth.get(
         "/tweets/44444444-4444-4444-4444-444444444444/")
     assert response.status_code == 200
-    assert response.json()['retweet'] == 3
+    assert response.json()['retweet'] == "33333333-3333-3333-3333-333333333333"
 
 
 def test_15_correct_get_detail_no_auth(APIClient_no_auth, testViewSet):
@@ -146,7 +146,7 @@ def test_18_incorrect_post_not_found(APIClient, testViewSet):
 def test_19_correct_get_comment_id(APIClient, testViewSet):
     response = APIClient.get("/tweets/55555555-5555-5555-5555-555555555555/")
     assert response.status_code == 200
-    assert response.json()['comment'] == 2
+    assert response.json()['comment'] == "22222222-2222-2222-2222-222222222222"
 
 
 def test_20_correct_get_comment_num(APIClient, testViewSet):
