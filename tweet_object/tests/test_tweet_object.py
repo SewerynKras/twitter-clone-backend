@@ -231,3 +231,27 @@ def test_31_correct_get_with_file(APIClient, testViewSet, mockImageUpload):
     assert response.status_code == 200
     assert response.json()[
         'image_url'] == "https://res.cloudinary.com/demo/image/upload/v1571218039/hl22acprlomnycgiudor.jpg"
+
+
+def test_32_correct_get_comments(APIClient, testViewSet):
+    response = APIClient.get("/tweets/5/comments/")
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+
+
+def test_33_correct_get_comments_0(APIClient, testViewSet):
+    response = APIClient.get("/tweets/1/comments/")
+    assert response.status_code == 200
+    assert len(response.json()) == 0
+
+
+def test_34_correct_get_retweets(APIClient, testViewSet):
+    response = APIClient.get("/tweets/3/retweets/")
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+
+
+def test_35_correct_get_retweets_0(APIClient, testViewSet):
+    response = APIClient.get("/tweets/1/retweets/")
+    assert response.status_code == 200
+    assert len(response.json()) == 0
