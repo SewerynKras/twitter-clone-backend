@@ -280,3 +280,8 @@ def test_35_correct_get_retweets_0(APIClient, testViewSet):
         "/tweets/11111111-1111-1111-1111-111111111111/retweets/")
     assert response.status_code == 200
     assert len(response.json()['results']) == 0
+
+
+def test_36_incorrect_get_no_auth(APIClient_no_auth, testViewSet):
+    response = APIClient_no_auth.get("/tweets/")
+    assert response.status_code == 401
