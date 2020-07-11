@@ -43,22 +43,22 @@ def test_04_correct_post_single(APIClient):
     assert response.status_code == 201
 
 
-def test_05_correct_put(APIClient, testViewSet):
+def test_05_correct_put_forbidden(APIClient, testViewSet):
     data = {"text": "Different tweet now!"}
     response = APIClient.put(
         "/tweets/11111111-1111-1111-1111-111111111111/",
         data)
-    assert response.status_code == 200
+    assert response.status_code == 403
 
 
-def test_06_incorrect_put_not_found(APIClient, testViewSet):
+def test_06_correct_put_not_found_forbidden(APIClient, testViewSet):
     data = {"text": "Different tweet now!"}
     response = APIClient.put(
         "/tweets/12345678-9876-5432-1234-567898765432/")
-    assert response.status_code == 404
+    assert response.status_code == 403
 
 
-def test_07_incorrect_put_not_authorized(APIClient, testViewSet):
+def test_07_correct_put_not_authorized_forbidden(APIClient, testViewSet):
     data = {"text": "Different tweet now!"}
     response = APIClient.put(
         "/tweets/33333333-3333-3333-3333-333333333333/")
