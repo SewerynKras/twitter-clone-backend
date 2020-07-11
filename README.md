@@ -195,7 +195,7 @@ interface Response {
   next: number | null;
   previous: number | null;
   results:  {
-    id: number;
+    id: string;
     text: string | null;
     likes: number;
     comments: number;
@@ -223,7 +223,7 @@ interface Body {
   <td>
     <pre lang="typescript">
 interface Response {
-  id: number;
+  id: string;
   text: string;
   likes: number;
   comments: number;
@@ -242,7 +242,7 @@ interface Response {
   <td>
     <pre lang="typescript">
 interface Response {
-  id: number;
+  id: string;
   text: string;
   likes: number;
   comments: number;
@@ -278,7 +278,7 @@ interface Response {
   <td>
     <pre lang="typescript">
 interface Response {
-  id: number;
+  id: string;
   text: string;
   likes: number;
   comments: number;
@@ -301,7 +301,7 @@ interface Response {
   next: number | null;
   previous: number | null;
   results:  {
-    id: number;
+    id: string;
     text: string | null;
     likes: number;
     comments: number;
@@ -321,7 +321,7 @@ interface Response {
   <td>
     <pre lang="typescript">
 interface Response {
-  id: number;
+  id: string;
   text: string;
   likes: number;
   comments: number;
@@ -344,7 +344,7 @@ interface Response {
   next: number | null;
   previous: number | null;
   results:  {
-    id: number;
+    id: string;
     text: string | null;
     likes: number;
     comments: number;
@@ -384,7 +384,7 @@ interface Response {
   <td> 
     <pre lang="typescript">
 interface Body {
-  tweet_id: number;
+  tweet_id: string;
 }</pre>
   </td>
   <td>
