@@ -239,7 +239,7 @@ interface Response {
 
 
 <tr>
-  <td>/tweets/&lt;ID&gt;</td>
+  <td>/tweets/&lt;ID&gt;/</td>
   <td>GET</td>
   <td> - </td>
   <td>
@@ -259,7 +259,7 @@ interface Response {
 
 
 <tr>
-  <td>/tweets/&lt;ID&gt;/likes</td>
+  <td>/tweets/&lt;ID&gt;/likes/</td>
   <td>GET</td>
   <td> - </td>
   <td>
@@ -309,7 +309,54 @@ interface Response {
   </td>
 </tr>
 
-<!-- #FIXME: add /comments/ and /retweets/ -->
+ <tr>
+  <td>/tweets/&lt;ID&gt;/comments/</td>
+  <td>GET</td>
+  <td> - </td>
+  <td>
+    <pre lang="typescript">
+interface Response {
+  count: number;
+  next: number | null;
+  previous: number | null;
+  results:  {
+    id: number;
+    text: string | null;
+    likes: number;
+    comments: number;
+    retweets: number;
+    retweet: number | null;
+    comment: number | null;
+    image_url: string | null;
+  }[];
+}</pre>
+  </td>
+</tr>
+
+ <tr>
+  <td>/tweets/&lt;ID&gt;/retweets/</td>
+  <td>GET</td>
+  <td> - </td>
+  <td>
+    <pre lang="typescript">
+interface Response {
+  count: number;
+  next: number | null;
+  previous: number | null;
+  results:  {
+    id: number;
+    text: string | null;
+    likes: number;
+    comments: number;
+    retweets: number;
+    retweet: number | null;
+    comment: number | null;
+    image_url: string | null;
+  }[];
+}</pre>
+  </td>
+</tr>
+
 
 <tr>
   <td>/tweets/&lt;ID&gt;</td>
@@ -319,6 +366,7 @@ interface Response {
 </tr>
 
 </table>
+
 
 ### Like
 
