@@ -24,7 +24,6 @@ def test_01_correct_get_single(APIClient, testViewSet):
                    'website',
                    'location',
                    'birth_date',
-                   'tweets',
                    'following',
                    'followers',
                    'image_url']) == sorted(list(response.json().keys()))
