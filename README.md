@@ -117,7 +117,6 @@ interface Response {
     website: string;
     location: string;
     birth_date: Date;
-    tweets: number[];
     followers: number;
     following: number;
     image_url: string | null;
@@ -152,7 +151,6 @@ interface Response {
   website: string;
   location: string;
   birth_date: Date;
-  tweets: number[];
   followers: number;
   following: number;
   image_url: string | null;
@@ -161,7 +159,7 @@ interface Response {
 </tr>
 
   <tr>
-  <td>/users/&lt;ID&gt;/</td>
+  <td>/users/&lt;USERNAME&gt;/</td>
   <td>GET</td>
   <td> - </td>
   <td>
@@ -173,7 +171,6 @@ interface Response {
   website: string;
   location: string;
   birth_date: Date;
-  tweets: number[];
   followers: number;
   following: number;
   image_url: string | null;
@@ -183,7 +180,7 @@ interface Response {
 
 
 <tr>
-  <td>/users/&lt;ID&gt;/</td>
+  <td>/users/&lt;USERNAME&gt;/</td>
   <td>PATCH</td>
   <td>
     <pre lang="typescript">
@@ -207,7 +204,6 @@ interface Response {
   website: string;
   location: string;
   birth_date: Date;
-  tweets: number[];
   followers: number;
   following: number;
   image_url: string | null;
@@ -217,7 +213,7 @@ interface Response {
 
 
 <tr>
-  <td>/users/&lt;ID&gt;/following/</td>
+  <td>/users/&lt;USERNAME&gt;/following/</td>
   <td>GET</td>
   <td> - </td>
   <td>
@@ -233,7 +229,6 @@ interface Response {
     website: string;
     location: string;
     birth_date: Date;
-    tweets: number[];
     followers: number;
     following: number;
     image_url: string | null;
@@ -244,7 +239,7 @@ interface Response {
 
 
 <tr>
-  <td>/users/&lt;ID&gt;/followers/</td>
+  <td>/users/&lt;USERNAME&gt;/followers/</td>
   <td>GET</td>
   <td> - </td>
   <td>
@@ -260,7 +255,6 @@ interface Response {
     website: string;
     location: string;
     birth_date: Date;
-    tweets: number[];
     followers: number;
     following: number;
     image_url: string | null;
@@ -294,6 +288,7 @@ interface Response {
   previous: number | null;
   results:  {
     id: string;
+    author: string;
     text: string | null;
     likes: number;
     comments: number;
@@ -322,6 +317,7 @@ interface Body {
     <pre lang="typescript">
 interface Response {
   id: string;
+  author: string;
   text: string;
   likes: number;
   comments: number;
@@ -341,6 +337,7 @@ interface Response {
     <pre lang="typescript">
 interface Response {
   id: string;
+  author: string;
   text: string;
   likes: number;
   comments: number;
@@ -377,6 +374,7 @@ interface Response {
     <pre lang="typescript">
 interface Response {
   id: string;
+  author: string;
   text: string;
   likes: number;
   comments: number;
@@ -400,6 +398,7 @@ interface Response {
   previous: number | null;
   results:  {
     id: string;
+    author: string;
     text: string | null;
     likes: number;
     comments: number;
@@ -420,6 +419,7 @@ interface Response {
     <pre lang="typescript">
 interface Response {
   id: string;
+  author: string;
   text: string;
   likes: number;
   comments: number;
@@ -443,6 +443,32 @@ interface Response {
   previous: number | null;
   results:  {
     id: string;
+    author: string;
+    text: string | null;
+    likes: number;
+    comments: number;
+    retweets: number;
+    retweet: number | null;
+    comment: number | null;
+    image_url: string | null;
+  }[];
+}</pre>
+  </td>
+</tr>
+
+ <tr>
+  <td>/users/&lt;USERNAME&gt;/tweets/</td>
+  <td>GET</td>
+  <td> - </td>
+  <td>
+    <pre lang="typescript">
+interface Response {
+  count: number;
+  next: number | null;
+  previous: number | null;
+  results:  {
+    id: string;
+    author: string;
     text: string | null;
     likes: number;
     comments: number;
