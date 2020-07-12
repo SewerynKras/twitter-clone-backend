@@ -11,6 +11,8 @@ from like_object.serializers import LikeObjectSerializer
 from tweet_object.models import TweetObject
 from tweet_object.permissions import OnlyAuthorCanEdit, OnlyLoggedInUserCanViewList
 from tweet_object.serializers import TweetObjectSerializer
+from user_profile.serializers import ProfileSerializer
+from user_profile.models import Profile
 
 
 class TweetObjectViewSet(viewsets.ModelViewSet):
@@ -50,10 +52,16 @@ class TweetObjectViewSet(viewsets.ModelViewSet):
 
         tweet = self.get_object()
         likes = LikeObject.objects.filter(tweet=tweet)
+        # Query profiles that have liked the selected tweet
+        # and feed that to the serializer (return full profiles not
+        # LikeObjects)
+        likes = Profile.objects.filter(
+            user__username__in=likes.values_list(
+                'author__user__username', flat=True))
 
         # Apply pagination to the queryset
         likes = self.paginate_queryset(likes)
-        likes = LikeObjectSerializer(likes, many=True)
+        likes = ProfileSerializer(likes, many=True)
         return self.get_paginated_response(likes.data)
 
     @action(detail=True, methods=["GET"])
