@@ -285,3 +285,24 @@ def test_35_correct_get_retweets_0(APIClient, testViewSet):
 def test_36_incorrect_get_no_auth(APIClient_no_auth, testViewSet):
     response = APIClient_no_auth.get("/tweets/")
     assert response.status_code == 401
+
+
+def test_37_correct_get_tweets_mine(APIClient, testViewSet):
+    response = APIClient.get("/users/testUser/tweets/")
+    assert response.status_code == 200
+    assert response.json()['count'] == 1
+    assert response.json()['results'][0]['text'] == "Test tweet 1!"
+
+
+def test_38_correct_get_tweets_not_mine(APIClient, testViewSet):
+    response = APIClient.get("/users/testUser1/tweets/")
+    assert response.status_code == 200
+    assert response.json()['count'] == 2
+    for tweet in response.json()['results']:
+        assert tweet['text'] in ['I am a comment 2!', 'Test tweet 3!']
+        assert tweet['author'] == "testUser1"
+
+
+def test_38_incorrect_get_tweets_not_found(APIClient, testViewSet):
+    response = APIClient.get("/users/testUser1234/tweets/")
+    assert response.status_code == 404
