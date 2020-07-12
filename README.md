@@ -359,8 +359,16 @@ interface Response {
   count: number;
   next: number | null;
   previous: number | null;
-  results:  {
-    author: string;
+  results: {
+    username: string;
+    display_name: string;
+    bio: string;
+    website: string;
+    location: string;
+    birth_date: Date;
+    followers: number;
+    following: number;
+    image_url: string | null;
   }[];
 }</pre>
   </td>
