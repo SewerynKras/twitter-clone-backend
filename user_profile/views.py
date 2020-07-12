@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from rest_framework import generics, viewsets
+from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
+from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.response import Response
 
@@ -11,7 +12,12 @@ from user_profile.permissions import CanOnlyEditYourself
 from user_profile.serializers import ProfileSerializer
 
 
-class ProfileViewSet(viewsets.ModelViewSet):
+class ProfileViewSet(viewsets.GenericViewSet,
+                     mixins.CreateModelMixin,
+                     mixins.DestroyModelMixin,
+                     mixins.ListModelMixin,
+                     mixins.RetrieveModelMixin,
+                     mixins.UpdateModelMixin):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [CanOnlyEditYourself]
@@ -53,3 +59,9 @@ class ProfileViewSet(viewsets.ModelViewSet):
         following = self.paginate_queryset(following)
         following = ProfileSerializer(following, many=True)
         return self.get_paginated_response(following.data)
+
+    def update(self, request, *args, **kwargs):
+        # PUT requests are not allowed
+        if not kwargs.get('partial'):
+            raise MethodNotAllowed("PUT", "Use PATCH instead")
+        return super().update(request, *args, **kwargs)

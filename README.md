@@ -136,6 +136,10 @@ interface Body {
   username: string;
   display_name: string;
   password: string;
+  bio?: string;
+  website?: string;
+  location?: string;
+  birth_date?: Date;
   image?: File;
 }</pre>
   </td>
@@ -180,14 +184,18 @@ interface Response {
 
 <tr>
   <td>/users/&lt;ID&gt;/</td>
-  <td>PUT</td>
+  <td>PATCH</td>
   <td>
     <pre lang="typescript">
 interface Response {
-  username: string;
-  display_name: string;
-  password: string;
-  image: File | null;
+  username?: string;
+  display_name?: string;
+  password?: string;
+  bio?: string;
+  website?: string;
+  location?: string;
+  birth_date?: Date;
+  image?: File;
 }</pre>
   </td>
   <td>
