@@ -10,6 +10,8 @@ from follow_object.models import FollowObject
 from user_profile.models import Profile
 from user_profile.permissions import CanOnlyEditYourself
 from user_profile.serializers import ProfileSerializer
+from tweet_object.models import TweetObject
+from tweet_object.serializers import TweetObjectSerializer
 
 
 class ProfileViewSet(viewsets.GenericViewSet,
@@ -59,6 +61,19 @@ class ProfileViewSet(viewsets.GenericViewSet,
         following = self.paginate_queryset(following)
         following = ProfileSerializer(following, many=True)
         return self.get_paginated_response(following.data)
+
+    @action(detail=True, methods=["GET"])
+    def tweets(self, request, *args, **kwargs):
+        # This will return a list of tweets created
+        # by the selected user
+
+        profile = self.get_object()
+        tweets = TweetObject.objects.filter(author=profile)
+
+        # Apply pagination to the queryset
+        tweets = self.paginate_queryset(tweets)
+        tweets = TweetObjectSerializer(tweets, many=True)
+        return self.get_paginated_response(tweets.data)
 
     def update(self, request, *args, **kwargs):
         # PUT requests are not allowed

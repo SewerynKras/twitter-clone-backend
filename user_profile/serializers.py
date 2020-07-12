@@ -9,8 +9,6 @@ from user_profile.models import Profile
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    tweets = serializers.PrimaryKeyRelatedField(
-        many=True, read_only=True)
     username = serializers.CharField(source='user.username')
     password = serializers.CharField(source='user.password', write_only=True)
 
@@ -40,7 +38,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             'website',
             'location',
             'birth_date',
-            'tweets',
             'password',
             'followers',
             'following',
