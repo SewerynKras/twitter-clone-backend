@@ -11,15 +11,16 @@ def test_00_correct_get(APIClient, testViewSet):
     response = APIClient.get(
         "/tweets/11111111-1111-1111-1111-111111111111/likes/")
     assert response.status_code == 200
-    assert len(response.json()['results']) == 1
-    assert response.json()['results'][0]['author'] == "testUser1"
+    assert response.json()['count'] == 1
+    assert response.json()['results'][0]['username'] == "testUser1"
 
 
 def test_01_correct_get_no_auth(APIClient_no_auth, testViewSet):
     response = APIClient_no_auth.get(
         "/tweets/11111111-1111-1111-1111-111111111111/likes/")
     assert response.status_code == 200
-    assert len(response.json()['results']) == 1
+    assert response.json()['count'] == 1
+    assert response.json()['results'][0]['username'] == "testUser1"
 
 
 def test_02_correct_post(APIClient, testViewSet):
@@ -31,7 +32,7 @@ def test_02_correct_post(APIClient, testViewSet):
     response = APIClient.get(
         "/tweets/11111111-1111-1111-1111-111111111111/likes/")
     assert response.status_code == 200
-    assert len(response.json()['results']) == 2
+    assert response.json()['count'] == 2
 
 
 def test_03_incorrect_post_no_auth(APIClient_no_auth, testViewSet):
@@ -60,7 +61,7 @@ def test_06_correct_delete(APIClient, testViewSet):
     response = APIClient.get(
         "/tweets/22222222-2222-2222-2222-222222222222/likes/")
     assert response.status_code == 200
-    assert len(response.json()['results']) == 0
+    assert response.json()['count'] == 0
 
 
 def test_07_incorrect_delete_like_not_found(APIClient, testViewSet):
