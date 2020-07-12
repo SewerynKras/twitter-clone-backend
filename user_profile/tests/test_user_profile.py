@@ -1,8 +1,9 @@
-from django.urls import reverse
 import pytest
+from django.contrib.auth.models import User
+from django.urls import reverse
+
 from user_profile.models import Profile
 from user_profile.views import ProfileViewSet
-from django.contrib.auth.models import User
 
 pytestmark = pytest.mark.django_db
 
@@ -119,3 +120,11 @@ def test_11_correct_patch_with_image(
     }
     response = APIClient.patch("/users/testUser/", data, format='multipart')
     assert response.status_code == 200
+
+
+def test_12_incorrect_put(APIClient, testViewSet):
+    data = {
+        "username": "newUser1"
+    }
+    response = APIClient.put("/users/testUser/", data)
+    assert response.status_code == 405
