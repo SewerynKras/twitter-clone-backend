@@ -127,3 +127,15 @@ def test_12_incorrect_put(APIClient, testViewSet):
     }
     response = APIClient.put("/users/testUser/", data)
     assert response.status_code == 405
+
+
+def test_13_correct_get_my_profile(APIClient, testViewSet):
+    response = APIClient.get("/users/getMyProfile/")
+    assert response.status_code == 200
+    assert response.json()['username'] == "testUser"
+    assert response.json()['display_name'] == "testUser name"
+
+
+def test_14_incorrect_get_my_profile_no_auth(APIClient_no_auth, testViewSet):
+    response = APIClient_no_auth.get("/users/getMyProfile/")
+    assert response.status_code == 401
