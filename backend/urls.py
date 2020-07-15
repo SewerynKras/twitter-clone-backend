@@ -12,9 +12,6 @@ urlpatterns = [
         jwt_views.TokenRefreshView.as_view(),
         name='token_refresh'),
     path(
-        'admin/',
-        admin.site.urls),
-    path(
         'tweets/',
         include('tweet_object.urls')),
     path(
@@ -26,8 +23,4 @@ urlpatterns = [
     path(
         'likes/',
         include('like_object.urls')),
-]
-
-urlpatterns += [
-    path('api-auth/', include('rest_framework.urls')),
 ]

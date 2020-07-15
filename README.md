@@ -101,7 +101,7 @@ interface Response {
 
 
   <tr>
-  <td>/users/</td>
+  <td>/users/profile/</td>
   <td>GET</td>
   <td> - </td>
   <td>
@@ -127,7 +127,7 @@ interface Response {
 
 
 <tr>
-  <td>/users/</td>
+  <td>/users/profile/</td>
   <td>POST</td>
   <td>
     <pre lang="typescript">
@@ -159,7 +159,7 @@ interface Response {
 </tr>
 
   <tr>
-  <td>/users/&lt;USERNAME&gt;/</td>
+  <td>/users/profile/&lt;USERNAME&gt;/</td>
   <td>GET</td>
   <td> - </td>
   <td>
@@ -180,7 +180,7 @@ interface Response {
 
 
 <tr>
-  <td>/users/&lt;USERNAME&gt;/</td>
+  <td>/users/profile/&lt;USERNAME&gt;/</td>
   <td>PATCH</td>
   <td>
     <pre lang="typescript">
@@ -213,7 +213,7 @@ interface Response {
 
 
 <tr>
-  <td>/users/&lt;USERNAME&gt;/following/</td>
+  <td>/users/profile/&lt;USERNAME&gt;/following/</td>
   <td>GET</td>
   <td> - </td>
   <td>
@@ -239,7 +239,7 @@ interface Response {
 
 
 <tr>
-  <td>/users/&lt;USERNAME&gt;/followers/</td>
+  <td>/users/profile/&lt;USERNAME&gt;/followers/</td>
   <td>GET</td>
   <td> - </td>
   <td>
@@ -259,6 +259,27 @@ interface Response {
     following: number;
     image_url: string | null;
   }[];
+}</pre>
+  </td>
+</tr>
+</table>
+
+<tr>
+  <td>/users/getMyProfile/</td>
+  <td>GET</td>
+  <td> - </td>
+  <td>
+    <pre lang="typescript">
+interface Response {
+  username: string;
+  display_name: string;
+  bio: string;
+  website: string;
+  location: string;
+  birth_date: Date;
+  followers: number;
+  following: number;
+  image_url: string | null;
 }</pre>
   </td>
 </tr>
@@ -465,7 +486,7 @@ interface Response {
 </tr>
 
  <tr>
-  <td>/users/&lt;USERNAME&gt;/tweets/</td>
+  <td>/users/profile/&lt;USERNAME&gt;/tweets/</td>
   <td>GET</td>
   <td> - </td>
   <td>

@@ -288,14 +288,14 @@ def test_36_incorrect_get_no_auth(APIClient_no_auth, testViewSet):
 
 
 def test_37_correct_get_tweets_mine(APIClient, testViewSet):
-    response = APIClient.get("/users/testUser/tweets/")
+    response = APIClient.get("/users/profile/testUser/tweets/")
     assert response.status_code == 200
     assert response.json()['count'] == 1
     assert response.json()['results'][0]['text'] == "Test tweet 1!"
 
 
 def test_38_correct_get_tweets_not_mine(APIClient, testViewSet):
-    response = APIClient.get("/users/testUser1/tweets/")
+    response = APIClient.get("/users/profile/testUser1/tweets/")
     assert response.status_code == 200
     assert response.json()['count'] == 2
     for tweet in response.json()['results']:
@@ -304,5 +304,5 @@ def test_38_correct_get_tweets_not_mine(APIClient, testViewSet):
 
 
 def test_38_incorrect_get_tweets_not_found(APIClient, testViewSet):
-    response = APIClient.get("/users/testUser1234/tweets/")
+    response = APIClient.get("/users/profile/testUser1234/tweets/")
     assert response.status_code == 404
