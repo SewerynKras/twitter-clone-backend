@@ -5,6 +5,8 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import permissions
 
 from follow_object.models import FollowObject
 from user_profile.models import Profile
@@ -80,3 +82,16 @@ class ProfileViewSet(viewsets.GenericViewSet,
         if not kwargs.get('partial'):
             raise MethodNotAllowed("PUT", "Use PATCH instead")
         return super().update(request, *args, **kwargs)
+
+
+class MyProfileView(APIView):
+    """
+    View designed to return information about the currently logged in user
+    """
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Profile.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        user = request.user.profile
+        user = ProfileSerializer(user)
+        return Response(user.data)

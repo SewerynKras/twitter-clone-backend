@@ -7,5 +7,6 @@ router = DefaultRouter()
 router.register("", views.ProfileViewSet)
 
 urlpatterns = [
+    path("getMyProfile/", views.MyProfileView.as_view()),    
     path("", include(router.urls))
 ]
