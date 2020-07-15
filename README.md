@@ -262,7 +262,6 @@ interface Response {
 }</pre>
   </td>
 </tr>
-</table>
 
 <tr>
   <td>/users/getMyProfile/</td>
