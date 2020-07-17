@@ -34,10 +34,10 @@ class LikeObjectViewSet(viewsets.mixins.CreateModelMixin,
 
     def create(self, request, *args, **kwargs):
         """
-        Override the default create method to return a custom 
+        Override the default create method to return a custom
         response message
         """
         response = super().create(request, *args, **kwargs)
-        if response.status == status.HTTP_201_CREATED:
-            response.data = {created: True}
+        if response.status_code == status.HTTP_201_CREATED:
+            response.data = {"created": True}
         return response

@@ -52,6 +52,7 @@ def test_06_correct_post(APIClient, testViewSet):
     data = {"being_followed": "testUser2"}
     response = APIClient.post("/follow/", data)
     assert response.status_code == 201
+    assert response.json()['created']
 
 
 def test_07_incorrect_post_myself(APIClient, testViewSet):
