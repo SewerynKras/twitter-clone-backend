@@ -559,8 +559,7 @@ interface Body {
   <td>
     <pre lang="typescript">
 interface Response {
-  following: number;
-  being_followed: number;
+  created: boolean;
 }</pre>
   </td>
 
