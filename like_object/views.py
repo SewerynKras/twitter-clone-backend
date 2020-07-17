@@ -3,6 +3,8 @@ from like_object.models import LikeObject
 from like_object.serializers import LikeObjectSerializer
 from django.http.response import Http404
 from like_object.permissions import MustBeLoggedIn
+from rest_framework.response import Response
+from rest_framework import status
 
 
 class LikeObjectViewSet(viewsets.mixins.CreateModelMixin,
@@ -29,3 +31,13 @@ class LikeObjectViewSet(viewsets.mixins.CreateModelMixin,
                 tweet__uuid=self.kwargs['pk'])
         except LikeObject.DoesNotExist:
             raise Http404
+
+    def create(self, request, *args, **kwargs):
+        """
+        Override the default create method to return a custom 
+        response message
+        """
+        response = super().create(request, *args, **kwargs)
+        if response.status == status.HTTP_201_CREATED:
+            response.data = {created: True}
+        return response

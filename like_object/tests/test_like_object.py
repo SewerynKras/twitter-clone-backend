@@ -27,6 +27,7 @@ def test_02_correct_post(APIClient, testViewSet):
     data = {"tweet_id": "11111111-1111-1111-1111-111111111111"}
     response = APIClient.post("/likes/", data)
     assert response.status_code == 201
+    assert response.json()['created']
 
     # Check that it got created
     response = APIClient.get(
