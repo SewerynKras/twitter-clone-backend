@@ -2,23 +2,17 @@
 
 # Django rest framework Twitter backend clone
 
-
 ## Project description
 
-
-This repository contains the code for a Twitter clone I wrote using Django Rest Framework. I've already created a project like this about a year ago during a full-stack django course, but I've decided to recreate it using a more modern developement stack. The front-end part of this project is located in this repository: (UNDER DEVELOPEMENT). Additionaly the entire project has been developed using TDD and maintains 100% code coverage. 
-
+This repository contains the code for a Twitter clone I wrote using Django Rest Framework. I've already created a project like this about a year ago during a full-stack django course, but I've decided to recreate it using a more modern development stack. The front-end part of this project is located in this repository: (UNDER DEVELOPMENT). Additionally the entire project has been developed using TDD and maintains 100% code coverage.
 
 Image storage and serving is handled using [Cloudinary](https://cloudinary.com/)
 
-
 The database engine used in this project is PostgreSQL
-
 
 ## Project highlights
 
-
-* Test Driven Developement
+* Test Driven Development
 * 100% Coverage
 * JWT Authentication
 * Advanced filtering
@@ -26,23 +20,18 @@ The database engine used in this project is PostgreSQL
 * Custom permission classes
 * CDN image storage
 
-
 ## Functionality
 
-
 * Create and edit your profile
-* Create tweets (but in classic Twitter fashion - without the ability to edit them) 
+* Create tweets (but in classic Twitter fashion - without the ability to edit them)
 * Attach images to tweets and profile pictures to profiles
 * Like tweets
 * Follow other profiles
 * Retweet or comment on tweets
 
-
 ## API documentation
 
-
 ### Token
-
 
 <table>
   <tr>
@@ -55,7 +44,7 @@ The database engine used in this project is PostgreSQL
   <tr>
   <td>/token/</td>
   <td>POST</td>
-  <td> 
+  <td>
     <pre lang="typescript">
 interface Body {
   username: string;
@@ -74,7 +63,7 @@ interface Response {
   <tr>
   <td>/token/refresh/</td>
   <td>POST</td>
-  <td> 
+  <td>
     <pre lang="typescript">
 interface Body {
   refresh: string;
@@ -98,7 +87,6 @@ interface Response {
     <th>Body</th>
     <th>Response</th>
   </tr>
-
 
   <tr>
   <td>/users/profile/</td>
@@ -124,7 +112,6 @@ interface Response {
 }</pre>
   </td>
 </tr>
-
 
 <tr>
   <td>/users/profile/</td>
@@ -177,7 +164,6 @@ interface Response {
 }</pre>
   </td>
 </tr>
-
 
 <tr>
   <td>/users/profile/&lt;USERNAME&gt;/</td>
@@ -211,7 +197,6 @@ interface Response {
   </td>
 </tr>
 
-
 <tr>
   <td>/users/profile/&lt;USERNAME&gt;/following/</td>
   <td>GET</td>
@@ -236,7 +221,6 @@ interface Response {
 }</pre>
   </td>
 </tr>
-
 
 <tr>
   <td>/users/profile/&lt;USERNAME&gt;/followers/</td>
@@ -284,9 +268,7 @@ interface Response {
 </tr>
 </table>
 
-
 ### Tweet
-
 
 <table>
   <tr>
@@ -324,13 +306,13 @@ interface Response {
 <tr>
   <td>/tweets/</td>
   <td>POST</td>
-  <td> 
+  <td>
     <pre lang="typescript">
 interface Body {
   text: string;
   comment_id?: number;
   retweet_id?: number;
-  image?: File; 
+  image?: File;
 }</pre>
   </td>
   <td>
@@ -518,9 +500,7 @@ interface Response {
 
 </table>
 
-
 ### Like
-
 
 <table>
   <tr>
@@ -533,7 +513,7 @@ interface Response {
 <tr>
   <td>/likes/</td>
   <td>POST</td>
-  <td> 
+  <td>
     <pre lang="typescript">
 interface Body {
   tweet_id: string;
@@ -542,7 +522,7 @@ interface Body {
   <td>
     <pre lang="typescript">
 interface Response {
-  author: string;
+  created: boolean;
 }</pre>
   </td>
 
@@ -557,9 +537,7 @@ interface Response {
 
 </table>
 
-
 ### Follow
-
 
 <table>
   <tr>
@@ -569,11 +547,10 @@ interface Response {
     <th>Response</th>
   </tr>
 
-
 <tr>
   <td>/follow/</td>
   <td>POST</td>
-  <td> 
+  <td>
     <pre lang="typescript">
 interface Body {
   being_followed: number;
@@ -595,6 +572,5 @@ interface Response {
 </tr>
 
 </tr>
-
 
 </table>
