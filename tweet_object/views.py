@@ -34,7 +34,8 @@ class TweetObjectViewSet(viewsets.ModelViewSet):
 
         # Apply pagination to the queryset
         tweets = self.paginate_queryset(tweets)
-        tweets = TweetObjectSerializer(tweets, many=True)
+        tweets = TweetObjectSerializer(tweets, many=True,
+                                       context={"request": request})
         return self.get_paginated_response(tweets.data)
 
     @action(detail=True, methods=["GET"])
@@ -69,7 +70,8 @@ class TweetObjectViewSet(viewsets.ModelViewSet):
         tweet = self.get_object()
         if not tweet.retweet:
             raise Http404
-        retweet = TweetObjectSerializer(tweet.retweet)
+        retweet = TweetObjectSerializer(tweet.retweet,
+                                        context={"request": request})
         return Response(retweet.data)
 
     @action(detail=True, methods=["GET"])
@@ -77,7 +79,8 @@ class TweetObjectViewSet(viewsets.ModelViewSet):
         tweet = self.get_object()
         if not tweet.comment:
             raise Http404
-        comment = TweetObjectSerializer(tweet.comment)
+        comment = TweetObjectSerializer(tweet.comment,
+                                        context={"request": request})
         return Response(comment.data)
 
     @action(detail=True, methods=["GET"])
@@ -90,7 +93,8 @@ class TweetObjectViewSet(viewsets.ModelViewSet):
 
         # Apply pagination to the queryset
         comments = self.paginate_queryset(comments)
-        comments = TweetObjectSerializer(comments, many=True)
+        comments = TweetObjectSerializer(comments, many=True,
+                                         context={"request": request})
         return self.get_paginated_response(comments.data)
 
     @action(detail=True, methods=["GET"])
@@ -103,7 +107,8 @@ class TweetObjectViewSet(viewsets.ModelViewSet):
 
         # Apply pagination to the queryset
         retweets = self.paginate_queryset(retweets)
-        retweets = TweetObjectSerializer(retweets, many=True)
+        retweets = TweetObjectSerializer(retweets, many=True,
+                                         context={"request": request})
         return self.get_paginated_response(retweets.data)
 
     def update(self, request, *args, **kwargs):

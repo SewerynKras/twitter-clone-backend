@@ -9,6 +9,7 @@ from PIL import Image
 from backend.tests.conftest import *
 from follow_object.models import FollowObject
 from image_object.models import ImageObject
+from like_object.models import LikeObject
 from tweet_object.models import TweetObject
 from user_profile.models import Profile
 
@@ -55,9 +56,18 @@ def testViewSet(testUser0: Profile, testUser1: Profile, testUser2) -> None:
         author=testUser1,
         uuid="66666666-6666-6666-6666-666666666666",
         comment=tweet5)
+    tweet7 = TweetObject.objects.create(
+        text="I am a retweet 2!",
+        author=testUser0,
+        uuid="77777777-7777-7777-7777-777777777777",
+        retweet=tweet3)
     follow = FollowObject.objects.create(
         following=testUser0,
         being_followed=testUser2
+    )
+    like1 = LikeObject.objects.create(
+        author=testUser0,
+        tweet=tweet1
     )
 
 

@@ -74,7 +74,8 @@ class ProfileViewSet(viewsets.GenericViewSet,
 
         # Apply pagination to the queryset
         tweets = self.paginate_queryset(tweets)
-        tweets = TweetObjectSerializer(tweets, many=True)
+        tweets = TweetObjectSerializer(tweets, many=True,
+                                       context={"request": request})
         return self.get_paginated_response(tweets.data)
 
     def update(self, request, *args, **kwargs):

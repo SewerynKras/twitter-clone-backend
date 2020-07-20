@@ -12,7 +12,7 @@ pytestmark = pytest.mark.django_db
 def test_00_correct_list(APIClient, testViewSet):
     response = APIClient.get("/tweets/")
     assert response.status_code == 200
-    assert response.json()['count'] == 4
+    assert response.json()['count'] == 5
     for tweet in response.json()['results']:
         assert tweet['author'] in ['testUser', 'testUser2']
 
@@ -272,7 +272,7 @@ def test_34_correct_get_retweets(APIClient, testViewSet):
     response = APIClient.get(
         "/tweets/33333333-3333-3333-3333-333333333333/retweets/")
     assert response.status_code == 200
-    assert len(response.json()['results']) == 1
+    assert len(response.json()['results']) == 2
 
 
 def test_35_correct_get_retweets_0(APIClient, testViewSet):
@@ -290,8 +290,8 @@ def test_36_incorrect_get_no_auth(APIClient_no_auth, testViewSet):
 def test_37_correct_get_tweets_mine(APIClient, testViewSet):
     response = APIClient.get("/users/profile/testUser/tweets/")
     assert response.status_code == 200
-    assert response.json()['count'] == 1
-    assert response.json()['results'][0]['text'] == "Test tweet 1!"
+    assert response.json()['count'] == 2
+    assert response.json()['results'][1]['text'] == "Test tweet 1!"
 
 
 def test_38_correct_get_tweets_not_mine(APIClient, testViewSet):
@@ -303,6 +303,22 @@ def test_38_correct_get_tweets_not_mine(APIClient, testViewSet):
         assert tweet['author'] == "testUser1"
 
 
-def test_38_incorrect_get_tweets_not_found(APIClient, testViewSet):
+def test_39_incorrect_get_tweets_not_found(APIClient, testViewSet):
     response = APIClient.get("/users/profile/testUser1234/tweets/")
     assert response.status_code == 404
+
+def test_40_correct_is_liked_True(APIClient, testViewSet):
+    response = APIClient.get("/tweets/11111111-1111-1111-1111-111111111111/")
+    assert response.json()['is_liked'] == True
+
+def test_41_correct_is_liked_False(APIClient, testViewSet):
+    response = APIClient.get("/tweets/33333333-3333-3333-3333-333333333333/")
+    assert response.json()['is_liked'] == False
+
+def test_42_correct_is_retweeted_True(APIClient, testViewSet):
+    response = APIClient.get("/tweets/33333333-3333-3333-3333-333333333333/")
+    assert response.json()['is_retweeted'] == True
+
+def test_43_correct_is_retweeted_False(APIClient, testViewSet):
+    response = APIClient.get("/tweets/11111111-1111-1111-1111-111111111111/")
+    assert response.json()['is_retweeted'] == False
