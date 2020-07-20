@@ -4,6 +4,7 @@ from like_object.models import LikeObject
 from image_object.models import ImageObject
 from django.contrib.auth.models import AnonymousUser
 
+
 class TweetObjectSerializer(serializers.ModelSerializer):
 
     id = serializers.ReadOnlyField(source='uuid')
@@ -67,11 +68,13 @@ class TweetObjectSerializer(serializers.ModelSerializer):
             'image',
             'image_url',
             'is_liked',
-            'is_retweeted'
+            'is_retweeted',
+            'created_date'
         )
         extra_kwargs = {
             "text": {"allow_null": True,
-                     "default": None}
+                     "default": None},
+            "created_date": {"read_only": True}
         }
 
     def create(self, validated_data):
@@ -137,13 +140,15 @@ class TweetObjectSerializer(serializers.ModelSerializer):
     def get_is_liked(self, obj):
         user = self.context['request'].user
         if not isinstance(user, AnonymousUser):
-            return LikeObject.objects.filter(tweet=obj, author=user.profile).count() > 0
+            return LikeObject.objects.filter(
+                tweet=obj, author=user.profile).count() > 0
         # If the user is not logged in simply return False
         return False
 
     def get_is_retweeted(self, obj):
         user = self.context['request'].user
         if not isinstance(user, AnonymousUser):
-            return TweetObject.objects.filter(retweet=obj, author=user.profile).count() > 0
+            return TweetObject.objects.filter(
+                retweet=obj, author=user.profile).count() > 0
         # If the user is not logged in simply return False
         return False
