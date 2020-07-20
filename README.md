@@ -12,22 +12,22 @@ The database engine used in this project is PostgreSQL
 
 ## Project highlights
 
-* Test Driven Development
-* 100% Coverage
-* JWT Authentication
-* Advanced filtering
-* Detailed documentation
-* Custom permission classes
-* CDN image storage
+- Test Driven Development
+- 100% Coverage
+- JWT Authentication
+- Advanced filtering
+- Detailed documentation
+- Custom permission classes
+- CDN image storage
 
 ## Functionality
 
-* Create and edit your profile
-* Create tweets (but in classic Twitter fashion - without the ability to edit them)
-* Attach images to tweets and profile pictures to profiles
-* Like tweets
-* Follow other profiles
-* Retweet or comment on tweets
+- Create and edit your profile
+- Create tweets (but in classic Twitter fashion - without the ability to edit them)
+- Attach images to tweets and profile pictures to profiles
+- Like tweets
+- Follow other profiles
+- Retweet or comment on tweets
 
 ## API documentation
 
@@ -292,6 +292,9 @@ interface Response {
     id: string;
     author: string;
     text: string | null;
+    created_date: Date;
+    is_liked: boolean;
+    is_retweeted: boolean;
     likes: number;
     comments: number;
     retweets: number;
@@ -321,6 +324,9 @@ interface Response {
   id: string;
   author: string;
   text: string;
+  created_date: Date;
+  is_liked: boolean;
+  is_retweeted: boolean;
   likes: number;
   comments: number;
   retweets: number;
@@ -341,6 +347,9 @@ interface Response {
   id: string;
   author: string;
   text: string;
+  created_date: Date;
+  is_liked: boolean;
+  is_retweeted: boolean;
   likes: number;
   comments: number;
   retweets: number;
@@ -386,6 +395,9 @@ interface Response {
   id: string;
   author: string;
   text: string;
+  created_date: Date;
+  is_liked: boolean;
+  is_retweeted: boolean;
   likes: number;
   comments: number;
   retweets: number;
@@ -410,6 +422,9 @@ interface Response {
     id: string;
     author: string;
     text: string | null;
+    created_date: Date;
+    is_liked: boolean;
+    is_retweeted: boolean;
     likes: number;
     comments: number;
     retweets: number;
@@ -431,6 +446,9 @@ interface Response {
   id: string;
   author: string;
   text: string;
+  created_date: Date;
+  is_liked: boolean;
+  is_retweeted: boolean;
   likes: number;
   comments: number;
   retweets: number;
@@ -455,6 +473,9 @@ interface Response {
     id: string;
     author: string;
     text: string | null;
+    created_date: Date;
+    is_liked: boolean;
+    is_retweeted: boolean;
     likes: number;
     comments: number;
     retweets: number;
@@ -480,6 +501,9 @@ interface Response {
     id: string;
     author: string;
     text: string | null;
+    created_date: Date;
+    is_liked: boolean;
+    is_retweeted: boolean;
     likes: number;
     comments: number;
     retweets: number;
@@ -564,7 +588,7 @@ interface Response {
   </td>
 
 <tr>
-  <td>/follow/&lt;PROFILE_ID&gt;/</td>
+  <td>/follow/&lt;USERNAME&gt;/</td>
   <td>DELETE</td>
   <td> - </td>
   <td> - </td>
