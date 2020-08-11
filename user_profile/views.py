@@ -43,7 +43,9 @@ class ProfileViewSet(viewsets.GenericViewSet,
 
         # Apply pagination to the queryset
         followers = self.paginate_queryset(followers)
-        followers = ProfileSerializer(followers, many=True)
+        followers = ProfileSerializer(
+            followers, many=True, context={
+                "request": request})
         return self.get_paginated_response(followers.data)
 
     @action(detail=True, methods=["GET"])
@@ -61,7 +63,9 @@ class ProfileViewSet(viewsets.GenericViewSet,
 
         # Apply pagination to the queryset
         following = self.paginate_queryset(following)
-        following = ProfileSerializer(following, many=True)
+        following = ProfileSerializer(
+            following, many=True, context={
+                "request": request})
         return self.get_paginated_response(following.data)
 
     @action(detail=True, methods=["GET"])
@@ -94,5 +98,5 @@ class MyProfileView(APIView):
 
     def get(self, request, *args, **kwargs):
         user = request.user.profile
-        user = ProfileSerializer(user)
+        user = ProfileSerializer(user, context={"request": request})
         return Response(user.data)

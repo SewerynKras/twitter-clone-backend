@@ -6,6 +6,7 @@ from follow_object.models import FollowObject
 from image_object.models import ImageObject
 from tweet_object.models import TweetObject
 from user_profile.models import Profile
+from django.contrib.auth.models import AnonymousUser
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -14,6 +15,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     followers = serializers.SerializerMethodField(read_only=True)
     following = serializers.SerializerMethodField(read_only=True)
+
+    is_followed = serializers.SerializerMethodField(read_only=True)
 
     image = serializers.ImageField(
         required=False,
@@ -42,7 +45,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             'followers',
             'following',
             'image',
-            'image_url'
+            'image_url',
+            'is_followed'
         ]
 
     def validate(self, data):
@@ -107,3 +111,12 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def get_following(self, obj):
         return FollowObject.objects.filter(following=obj).count()
+
+    def get_is_followed(self, obj):
+        if (request := self.context.get("request")):
+            if not isinstance(request.user, AnonymousUser):
+                return FollowObject.objects.filter(
+                    being_followed=obj, following=request.user.profile).count() > 0
+        # If the user is not logged in or the request contex is unavailable
+        # simply return False
+        return False

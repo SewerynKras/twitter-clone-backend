@@ -138,17 +138,19 @@ class TweetObjectSerializer(serializers.ModelSerializer):
         return TweetObject.objects.filter(comment=obj).count()
 
     def get_is_liked(self, obj):
-        user = self.context['request'].user
-        if not isinstance(user, AnonymousUser):
-            return LikeObject.objects.filter(
-                tweet=obj, author=user.profile).count() > 0
-        # If the user is not logged in simply return False
+        if (request := self.context.get('request')):
+            if not isinstance(request.user, AnonymousUser):
+                return LikeObject.objects.filter(
+                    tweet=obj, author=request.user.profile).count() > 0
+        # If the user is not logged in or the request contex is unavailable
+        # simply return False
         return False
 
     def get_is_retweeted(self, obj):
-        user = self.context['request'].user
-        if not isinstance(user, AnonymousUser):
-            return TweetObject.objects.filter(
-                retweet=obj, author=user.profile).count() > 0
-        # If the user is not logged in simply return False
+        if (request := self.context.get('request')):
+            if not isinstance(request.user, AnonymousUser):
+                return TweetObject.objects.filter(
+                    retweet=obj, author=request.user.profile).count() > 0
+        # If the user is not logged in or the request contex is unavailable
+        # simply return False
         return False

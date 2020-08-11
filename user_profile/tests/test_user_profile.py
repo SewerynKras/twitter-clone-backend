@@ -26,7 +26,8 @@ def test_01_correct_get_single(APIClient, testViewSet):
                    'birth_date',
                    'following',
                    'followers',
-                   'image_url']) == sorted(list(response.json().keys()))
+                   'image_url',
+                   'is_followed']) == sorted(list(response.json().keys()))
 
 
 def test_02_incorrect_get_single_not_found(APIClient, testViewSet):
@@ -117,7 +118,10 @@ def test_11_correct_patch_with_image(
     data = {
         "image": dummyImage
     }
-    response = APIClient.patch("/users/profile/testUser/", data, format='multipart')
+    response = APIClient.patch(
+        "/users/profile/testUser/",
+        data,
+        format='multipart')
     assert response.status_code == 200
 
 
@@ -139,3 +143,15 @@ def test_13_correct_get_my_profile(APIClient, testViewSet):
 def test_14_incorrect_get_my_profile_no_auth(APIClient_no_auth, testViewSet):
     response = APIClient_no_auth.get("/users/getMyProfile/")
     assert response.status_code == 401
+
+
+def test_15_correct_get_single_is_followed(APIClient, testViewSet):
+    response = APIClient.get("/users/profile/testUser1/", follow=True)
+    assert response.status_code == 200
+    assert response.json()['is_followed']
+
+
+def test_16_correct_get_single_is_followed(APIClient, testViewSet):
+    response = APIClient.get("/users/profile/testUser/", follow=True)
+    assert response.status_code == 200
+    assert response.json()['is_followed'] == False

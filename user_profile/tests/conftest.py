@@ -8,6 +8,7 @@ from PIL import Image
 
 from image_object.models import ImageObject
 from user_profile.models import Profile
+from follow_object.models import FollowObject
 from backend.tests.conftest import *
 
 pytestmark = pytest.mark.django_db
@@ -16,8 +17,9 @@ pytestmark = pytest.mark.django_db
 @pytest.fixture
 def testViewSet(testUser0: Profile, testUser1: Profile) -> None:
     """
-    Creates 2 Profiles
+    Creates 2 Profiles and a follow object
     """
+    FollowObject.objects.create(being_followed=testUser1, following=testUser0)
     return None
 
 
