@@ -1,7 +1,7 @@
 asgiref==3.2.7
 astroid==2.4.1
 attrs==19.3.0
-autopep8==1.5.2
+autopep8==1.5.4
 bcrypt==3.1.7
 certifi==2020.4.5.2
 cffi==1.14.0
@@ -22,10 +22,10 @@ Pillow==7.1.2
 pluggy==0.13.1
 psycopg2-binary==2.8.5
 py==1.8.1
-pycodestyle==2.5.0
+pycodestyle==2.6.0
 pycparser==2.20
 PyJWT==1.7.1
-pylint==2.5.2
+pylint==2.5.3
 pyparsing==2.4.7
 pytest==5.4.2
 pytest-cov==2.9.0
