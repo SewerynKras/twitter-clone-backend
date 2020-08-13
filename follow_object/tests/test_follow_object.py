@@ -87,3 +87,9 @@ def test_11_correct_delete(APIClient, testViewSet):
 def test_12_incorrect_delete_not_following(APIClient, testViewSet):
     response = APIClient.delete("/follow/testUser2/")
     assert response.status_code == 404
+
+
+def test_13_correct_get_recommendations(APIClient, testViewSet):
+    response = APIClient.get("/follow/getRecommendations/")
+    assert response.status_code == 200
+    assert response.json()['results'][0]['username'] == "testUser1"

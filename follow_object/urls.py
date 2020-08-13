@@ -7,5 +7,6 @@ router = DefaultRouter()
 router.register("", views.FollowObjectViewSet)
 
 urlpatterns = [
+    path("getRecommendations/", views.RecommendationsView.as_view({'get': 'list'})),
     path("", include(router.urls))
 ]
