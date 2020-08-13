@@ -27,6 +27,7 @@ class ProfileViewSet(viewsets.GenericViewSet,
     permission_classes = [CanOnlyEditYourself]
     parser_classes = [JSONParser, MultiPartParser]
     lookup_field = "user__username"
+    ordering = ['-followers', 'user__username']
 
     @action(detail=True, methods=["GET"])
     def followers(self, request, *args, **kwargs):

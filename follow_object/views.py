@@ -67,7 +67,7 @@ class RecommendationsView(
         # Query profiles that are not being followed and feed that to the
         # serializer (return full profiles not FollowObjects)
         following = Profile.objects.filter(~Q(user__username__in=following.values_list(
-            'being_followed__user__username', flat=True)) & ~Q(user=profile.user))
+            'being_followed__user__username', flat=True)) & ~Q(user=profile.user)).order_by('-followers')
 
         # Apply pagination to the queryset
         following = self.paginate_queryset(following)

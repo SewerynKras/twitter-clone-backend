@@ -33,4 +33,4 @@ class Profile(models.Model):
 
     class Meta:
         # Number of followers gets annotated by the FollowersManager
-        ordering = ['-followers']
+        ordering = ['user__username']
