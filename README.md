@@ -596,6 +596,32 @@ interface Response {
   </td>
 
 <tr>
+  <td>/follow/getRecommendations/</td>
+  <td>GET</td>
+  <td> - </td>
+  <td> 
+      <pre lang="typescript">
+interface Response {
+  count: number;
+  next: number | null;
+  previous: number | null;
+  results: {
+    username: string;
+    display_name: string;
+    bio: string;
+    website: string;
+    location: string;
+    birth_date: Date;
+    followers: number;
+    following: number;
+    is_followed: boolean;
+    image_url: string | null;
+  }[];
+}</pre>
+   </td>
+</tr>
+
+<tr>
   <td>/follow/&lt;USERNAME&gt;/</td>
   <td>DELETE</td>
   <td> - </td>
