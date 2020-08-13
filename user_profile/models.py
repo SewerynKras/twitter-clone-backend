@@ -1,5 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
+from follow_object.models import FollowObject
+from django.db.models import Count
+
+
+class FollowersManager(models.Manager):
+    """
+    Annotates the number of followers to the queryset
+    """
+
+    def get_queryset(self):
+        return super(
+            FollowersManager,
+            self).get_queryset().annotate(
+            followers=Count("being_followed"))
 
 
 class Profile(models.Model):
@@ -15,6 +29,8 @@ class Profile(models.Model):
         default=None,
         on_delete=models.CASCADE
     )
+    objects = FollowersManager()
 
     class Meta:
-        ordering = ['-id']
+        # Number of followers gets annotated by the FollowersManager
+        ordering = ['-followers']

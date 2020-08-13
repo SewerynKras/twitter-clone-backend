@@ -107,7 +107,12 @@ class ProfileSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
     def get_followers(self, obj):
-        return FollowObject.objects.filter(being_followed=obj).count()
+        # The `followers` annotation is not always available
+        # so in those cases simply return 0
+        try:
+            return obj.followers
+        except AttributeError:
+            return 0
 
     def get_following(self, obj):
         return FollowObject.objects.filter(following=obj).count()
