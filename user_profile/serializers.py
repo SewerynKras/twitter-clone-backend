@@ -51,16 +51,24 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """
-        Check if that username is unique
+        Check if that username is unique and different from the one the user
+        currently uses
         """
-        if data.get("user"):
-            try:
-                User.objects.get(username=data['user']['username'])
-            except User.DoesNotExist:
-                pass
-            else:
-                raise serializers.ValidationError(
-                    {"username": "username must be unique"})
+
+        if data.get("user") and data['user'].get("username"):
+            # Proceed if the username is different than the user's username
+            # or there is no current user
+            if not ((instance := self.instance)
+                    and
+                    (instance.user.username == data['user']['username'])
+                    ):
+                try:
+                    User.objects.get(username=data['user']['username'])
+                except User.DoesNotExist:
+                    pass
+                else:
+                    raise serializers.ValidationError(
+                        {"username": "username must be unique"})
         return data
 
     def create(self, validated_data):
