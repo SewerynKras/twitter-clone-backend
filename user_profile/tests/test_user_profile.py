@@ -155,3 +155,11 @@ def test_16_correct_get_single_is_followed(APIClient, testViewSet):
     response = APIClient.get("/users/profile/testUser/", follow=True)
     assert response.status_code == 200
     assert response.json()['is_followed'] == False
+
+
+def test_17_correct_patch_same_username(APIClient, testViewSet):
+    data = {
+        "username": "testUser"
+    }
+    response = APIClient.patch("/users/profile/testUser/", data)
+    assert response.status_code == 200
