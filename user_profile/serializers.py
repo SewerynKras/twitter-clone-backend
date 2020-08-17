@@ -103,7 +103,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         """
         if validated_data.get("user"):
             instance.user.username = validated_data['user']['username']
-            instance.save()
+            instance.user.save()
             del validated_data['user']
 
         if validated_data.get('image'):
