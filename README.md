@@ -4,7 +4,7 @@
 
 ## Project description
 
-This repository contains the code for a Twitter clone I wrote using Django Rest Framework. I've already created a project like this about a year ago during a full-stack django course, but I've decided to recreate it using a more modern development stack. The front-end part of this project is located in this repository: (UNDER DEVELOPMENT). Additionally the entire project has been developed using TDD and maintains 100% code coverage.
+This repository contains the code for a Twitter clone I wrote using Django Rest Framework. I've already created a project like this about a year ago during a full-stack django course, but I've decided to recreate it using a more modern development stack. The front-end part of this project is located in this repository: [twitter-clone-frontend](https://github.com/SewerynKras/twitter-clone-frontend). Additionally the entire project has been developed using TDD and maintains 100% code coverage.
 
 Image storage and serving is handled using [Cloudinary](https://cloudinary.com/)
 
@@ -17,7 +17,6 @@ The database engine used in this project is PostgreSQL
 - JWT Authentication
 - Advanced filtering
 - Detailed documentation
-- Custom permission classes
 - CDN image storage
 
 ## Functionality
