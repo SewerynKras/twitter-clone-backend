@@ -18,6 +18,7 @@ The database engine used in this project is PostgreSQL
 - Advanced filtering
 - Detailed documentation
 - CDN image storage
+- Docker support
 
 ## Functionality
 
