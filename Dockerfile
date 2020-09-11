@@ -12,6 +12,9 @@ ENV PYTHONUNBUFFERED 1
 # Tells dotenv to load the production environment 
 ENV env PROD
 
+# Update the package list and install netcat (it's used inside the entrypoint script)
+RUN apt-get update && apt-get -y install netcat
+
 # Install pip requirements
 ADD requirements.txt .
 RUN python -m pip install -r requirements.txt
@@ -24,5 +27,5 @@ USER appuser
 
 EXPOSE 8000
 
-# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-# CMD ["gunicorn", "--bind", "0.0.0.0:8000", "backend.wsgi"]
+# Wait for postgres to finish initialing and run django migrations
+ENTRYPOINT [ "/usr/src/backend/entrypoint.sh" ]
