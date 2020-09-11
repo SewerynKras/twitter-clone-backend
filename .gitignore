@@ -11,3 +11,4 @@ coverage.xml
 restart_db.sh
 cov.xml
 upload_cov.sh
+*.env

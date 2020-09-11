@@ -7,9 +7,16 @@ For more information on this file, see
 https://docs.djangoproject.com/en/3.0/howto/deployment/wsgi/
 """
 
+from django.core.wsgi import get_wsgi_application
 import os
 
-from django.core.wsgi import get_wsgi_application
+# Load the env file
+from dotenv import load_dotenv
+from pathlib import Path
+env = os.environ['env'].lower()
+env_path = Path('.') / f'{env}.env'
+load_dotenv(dotenv_path=env_path)
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 

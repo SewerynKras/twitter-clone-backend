@@ -1,7 +1,14 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
-import os
+
 import sys
+import os
+
+from dotenv import load_dotenv
+from pathlib import Path
+env = os.environ['env'].lower()
+env_path = Path('.') / f'{env}.env'
+load_dotenv(dotenv_path=env_path)
 
 
 def main():
