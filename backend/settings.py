@@ -150,8 +150,8 @@ REST_FRAMEWORK = {
 cloudinary.config(cloud_name=os.environ['CLOUDINARY_CLOUD_NAME'],
                   api_key=os.environ['CLOUDINARY_API_KEY'],
                   api_secret=os.environ['CLOUDINARY_API_SECRET'])
-# CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = os.environ['CORS_ORIGIN_ALLOW_ALL'] == "True"
+CORS_ALLOW_CREDENTIALS = os.environ['CORS_ORIGIN_CREDENTIALS'] == "True"
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:4200',
+    os.environ['CORS_ORIGIN_WHITELIST']
 ]
